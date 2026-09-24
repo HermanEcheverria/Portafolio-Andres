@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets'
-import { getCollection } from 'astro:content'
 
 import retrato from '@/assets/retrato.png'
 import RetratoGrabado from '@/assets/retrato-grabado.svg'
@@ -13,6 +12,7 @@ import WaveDivider from '@/components/WaveDivider.astro'
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getProjects } from '@/lib/projects'
 import { profile } from '@/data/profile'
 
 interface Props {
@@ -22,12 +22,7 @@ interface Props {
 const { lang } = Astro.props
 const t = useTranslations(lang)
 
-const projects = (
-  await getCollection(
-    'projects',
-    ({ id, data }) => id.startsWith(`${lang}/`) && (import.meta.env.DEV || !data.draft),
-  )
-).sort((a, b) => a.data.order - b.data.order)
+const projects = await getProjects(lang)
 ---
 
 <BaseLayout>

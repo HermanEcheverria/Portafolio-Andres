@@ -39,6 +39,32 @@
   @apply mx-auto w-full max-w-[1440px] px-5 sm:px-10 lg:px-18;
 }
 
+/* Texto largo de los casos de estudio (Markdown) */
+@layer components {
+  .prosa {
+    @apply flex flex-col gap-5 text-lg leading-relaxed text-tinta-suave;
+  }
+  .prosa h2 {
+    @apply mt-8 border-b-[1.5px] border-tinta pb-2 font-display text-3xl text-tinta first:mt-0;
+  }
+  .prosa ul {
+    @apply flex flex-col gap-3 pl-0;
+  }
+  .prosa li {
+    @apply relative pl-7;
+  }
+  .prosa li::before {
+    content: '';
+    @apply absolute top-[0.7em] left-0 h-[1.5px] w-4 bg-cobalto;
+  }
+  .prosa strong {
+    @apply font-semibold text-tinta;
+  }
+  .prosa a {
+    @apply text-cobalto underline underline-offset-4;
+  }
+}
+
 /* Rayado diagonal de grabado para fondos */
 @utility rayado {
   background-image: repeating-linear-gradient(

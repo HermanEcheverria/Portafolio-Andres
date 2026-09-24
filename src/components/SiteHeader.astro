@@ -4,9 +4,11 @@ import { localizedPath, useTranslations } from '@/i18n/utils'
 
 interface Props {
   lang: Lang
+  /** Ruta actual sin idioma, para que el botón de idioma lleve a la misma página. */
+  path?: string
 }
 
-const { lang } = Astro.props
+const { lang, path = '/' } = Astro.props
 const t = useTranslations(lang)
 const other: Lang = lang === 'es' ? 'en' : 'es'
 // Rutas absolutas: el menú también funciona desde otras páginas (p. ej. la 404)
@@ -35,7 +37,7 @@ const links = [
         ))}
       </ul>
       <a
-        href={localizedPath(other)}
+        href={localizedPath(other, path)}
         hreflang={other}
         lang={other}
         class="flex h-11 items-center border-[1.5px] border-tinta px-3.5 transition-colors hover:bg-tinta hover:text-papel"

@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import type { Lang } from '@/i18n/ui'
 import { toRoman, useTranslations } from '@/i18n/utils'
+import { projectUrl } from '@/lib/projects'
 
 interface Props {
   project: CollectionEntry<'projects'>
@@ -27,8 +28,16 @@ const { title, summary, stack, year } = project.data
   </div>
   <div class="flex flex-1 flex-col gap-3 p-6 [transform:translateZ(18px)]">
     <p class="font-mono text-xs text-grafito">{year}</p>
-    <h3 class="font-display text-[27px] leading-tight">{title}</h3>
+    <h3 class="font-display text-[27px] leading-tight">
+      <!-- El enlace cubre toda la lámina con ::after, sin anidar elementos interactivos -->
+      <a href={projectUrl(project, lang)} class="after:absolute after:inset-0">
+        {title}
+      </a>
+    </h3>
     <p class="leading-relaxed text-tinta-suave">{summary}</p>
     <p class="font-mono text-xs leading-relaxed text-cobalto">{stack.join(' · ')}</p>
+    <p class="mt-auto pt-3 font-mono text-sm group-hover:text-cobalto" aria-hidden="true">
+      {t('projects.case')} →
+    </p>
   </div>
 </article>

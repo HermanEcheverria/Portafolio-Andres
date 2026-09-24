@@ -5,7 +5,6 @@
  * desincronicen. Texto real y sin tablas: lo pueden leer los sistemas ATS.
  */
 import { Font, Image } from 'astro:assets'
-import { getCollection } from 'astro:content'
 
 import {
   certifications,
@@ -20,6 +19,7 @@ import { profile } from '@/data/profile'
 import { skillGroups } from '@/data/skills'
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
+import { getProjects } from '@/lib/projects'
 import '@/styles/global.css'
 
 interface Props {
@@ -28,9 +28,7 @@ interface Props {
 
 const { lang } = Astro.props
 const t = useTranslations(lang)
-const projects = (
-  await getCollection('projects', ({ id, data }) => id.startsWith(`${lang}/`) && !data.draft)
-).sort((a, b) => a.data.order - b.data.order)
+const projects = await getProjects(lang)
 const hiddenCerts = certifications.filter((c) => c.inCv === false).length
 const pdf = lang === 'es' ? '/cv.pdf' : '/cv-en.pdf'
 const displayUrl = (url: string) =>

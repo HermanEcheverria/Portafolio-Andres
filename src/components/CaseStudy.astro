@@ -1,0 +1,107 @@
+---
+import { render } from 'astro:content'
+
+import type { Lang } from '@/i18n/ui'
+import { localizedPath, toRoman, useTranslations } from '@/i18n/utils'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { getProjects, projectPath, projectSlug, projectUrl } from '@/lib/projects'
+
+interface Props {
+  lang: Lang
+  slug: string
+}
+
+const { lang, slug } = Astro.props
+const t = useTranslations(lang)
+const projects = await getProjects(lang)
+const index = projects.findIndex((p) => projectSlug(p) === slug)
+const project = projects[index]
+const { Content } = await render(project)
+const { title, summary, year, role, stack } = project.data
+const previous = projects[index - 1]
+const next = projects[index + 1]
+const plate = `${t('projects.plate')} ${toRoman(index + 1)}`
+---
+
+<BaseLayout
+  title={`${title} · Andrés Echeverría`}
+  description={summary}
+  path={projectPath(project)}
+>
+  <article class="container-page pt-10 pb-6">
+    <a
+      href={`${localizedPath(lang)}#laminas`}
+      class="inline-flex items-center gap-2 font-mono text-sm hover:text-cobalto"
+    >
+      ← {t('case.back')}
+    </a>
+
+    <header class="mt-10 flex flex-col gap-6 border-b-[1.5px] border-tinta pb-12">
+      <p data-reveal class="font-mono text-[13px] tracking-[0.25em] uppercase">
+        {plate} · {year}
+      </p>
+      <h1
+        data-split
+        class="sombra-impresa max-w-5xl font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.98] tracking-[-0.02em]"
+      >
+        {title}
+      </h1>
+      <p data-reveal class="max-w-3xl text-xl leading-relaxed sm:text-2xl">
+        {summary}
+      </p>
+    </header>
+
+    <div class="grid gap-12 py-14 lg:grid-cols-[18rem_1fr] lg:gap-20">
+      <aside class="lg:sticky lg:top-10 lg:self-start">
+        <dl class="grid gap-6 border-[1.5px] border-tinta bg-papel-claro p-6 font-mono text-sm">
+          <div class="flex flex-col gap-1.5">
+            <dt class="text-xs tracking-[0.2em] text-grafito uppercase">{t('case.role')}</dt>
+            <dd>{role}</dd>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <dt class="text-xs tracking-[0.2em] text-grafito uppercase">{t('case.year')}</dt>
+            <dd>{year}</dd>
+          </div>
+          <div class="flex flex-col gap-2">
+            <dt class="text-xs tracking-[0.2em] text-grafito uppercase">{t('case.stack')}</dt>
+            <dd>
+              <ul class="flex flex-wrap gap-2">
+                {stack.map((tech) => (
+                  <li class="border-[1.5px] border-tinta px-2 py-0.5 text-xs">{tech}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </aside>
+
+      <div class="prosa max-w-3xl" data-reveal>
+        <Content />
+      </div>
+    </div>
+
+    <nav
+      aria-label={t('case.more')}
+      class="grid gap-4 border-t-[1.5px] border-tinta pt-10 sm:grid-cols-2"
+    >
+      {previous && (
+        <a
+          href={projectUrl(previous, lang)}
+          class="group flex flex-col gap-2 border-[1.5px] border-tinta p-6 transition-colors hover:bg-tinta hover:text-papel"
+        >
+          <span class="font-mono text-xs tracking-[0.2em] uppercase">← {t('case.previous')}</span>
+          <span class="font-display text-2xl">{previous.data.title}</span>
+        </a>
+      )}
+      {next && (
+        <a
+          href={projectUrl(next, lang)}
+          class="group flex flex-col gap-2 border-[1.5px] border-tinta p-6 text-right transition-colors hover:bg-tinta hover:text-papel sm:col-start-2"
+        >
+          <span class="font-mono text-xs tracking-[0.2em] uppercase">{t('case.next')} →</span>
+          <span class="font-display text-2xl">{next.data.title}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+</BaseLayout>
