@@ -28,6 +28,7 @@ const pdf = lang === 'es' ? '/cv.pdf' : '/cv-en.pdf'
 const displayUrl = (url: string) => url.replace(/^https?:\/\//, '')
 const contact = [
   { label: profile.email, href: `mailto:${profile.email}` },
+  { label: profile.phone, href: `tel:${profile.phone.replace(/[^+\d]/g, '')}` },
   { label: displayUrl(profile.website), href: profile.website },
   { label: displayUrl(profile.links.github), href: profile.links.github },
   profile.links.linkedin && {

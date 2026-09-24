@@ -2,7 +2,7 @@ import type { Localizable } from '@/data/localized'
 
 /**
  * Datos de contacto y formación. Los usan el portafolio y el CV, así que se
- * actualizan en un solo lugar. Por privacidad: nada de teléfono ni dirección.
+ * actualizan en un solo lugar. Por privacidad: nada de dirección.
  */
 export const profile = {
   name: 'Herman Andrés Echeverría Rojas',
@@ -14,6 +14,8 @@ export const profile = {
   } satisfies Localizable,
   location: 'Guatemala',
   email: 'herman.andres.echeverria@gmail.com',
+  /** Solo se muestra en el CV, no en las páginas del sitio (menos spam de bots). */
+  phone: '+502 5123-7070',
   website: 'https://andresecheverria.com',
   links: {
     github: 'https://github.com/HermanEcheverria',
