@@ -4,6 +4,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portafolio-andres",
   "compatibility_date": "2026-09-01",
+  // El sitio vive solo en andresecheverria.com (dominio propio configurado en Cloudflare);
+  // sin la copia en *.workers.dev que Google vería como contenido duplicado
+  "workers_dev": false,
   "assets": {
     "directory": "./dist",
     // Rutas inexistentes muestran la 404 de "Has muerto"
