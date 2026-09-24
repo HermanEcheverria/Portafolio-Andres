@@ -37,7 +37,7 @@ const t = useTranslations(Astro.props.lang)
         {t('hero.cta.projects')}
       </a>
       <a
-        href="#cv"
+        href={Astro.props.lang === 'es' ? '/cv' : '/en/cv'}
         class="inline-flex h-13 items-center border-[1.5px] border-tinta px-6.5 font-medium transition-colors hover:bg-tinta hover:text-papel"
       >
         {t('hero.cta.cv')}

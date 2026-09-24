@@ -1,15 +1,15 @@
-import type { Lang } from '@/i18n/ui'
+import type { Localizable } from '@/data/localized'
 
 export type SkillGroup = {
-  title: Record<Lang, string>
+  title: Localizable
   /** Número de figura en el estilo de lámina ("Fig. 2"). */
   figure: number
-  items: string[]
+  items: Localizable[]
 }
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: { es: 'Front-end', en: 'Front-end' },
+    title: 'Front-end',
     figure: 2,
     items: ['React', 'Next.js', 'Astro', 'TypeScript', 'Tailwind CSS'],
   },
@@ -19,8 +19,13 @@ export const skillGroups: SkillGroup[] = [
     items: ['PostgreSQL', 'MongoDB', 'MariaDB', 'SQL'],
   },
   {
-    title: { es: 'Infraestructura y automatización', en: 'Infrastructure & automation' },
+    title: { es: 'ERP y datos', en: 'ERP & data' },
     figure: 4,
+    items: ['Odoo', 'Python', 'Excel', { es: 'Migración de datos', en: 'Data migration' }],
+  },
+  {
+    title: { es: 'Infraestructura y automatización', en: 'Infrastructure & automation' },
+    figure: 5,
     items: ['Docker', 'n8n', 'Linux', 'Windows', 'Git'],
   },
 ]

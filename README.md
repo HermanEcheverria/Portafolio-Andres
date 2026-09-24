@@ -21,7 +21,8 @@ grabado en tinta; la luz sigue al cursor.
   con tinta. Se pausa cuando no está en pantalla y respeta "reducir movimiento".
 - **Las animaciones** (`src/scripts/motion.ts`) se activan con atributos `data-*` y comparten los
   mismos tiempos y curvas (`src/lib/motion.ts`).
-- **Los textos** están en `src/i18n/ui.ts`; los proyectos, en `src/content/projects/<idioma>/`.
+- **Los textos** están en `src/i18n/ui.ts`; los proyectos, en `src/content/projects/<idioma>/`;
+  el perfil, la experiencia y las habilidades, en `src/data/`.
 
 ## Desarrollo
 
@@ -31,4 +32,8 @@ pnpm dev          # http://localhost:4321
 pnpm check        # tipos y diagnósticos de Astro
 pnpm build        # sitio estático en dist/
 pnpm format       # Prettier
+pnpm cv           # después de build: genera public/cv.pdf y public/cv-en.pdf
 ```
+
+El CV (`/cv` y `/en/cv`) se arma con los mismos datos del portafolio (`src/data/`), así que
+solo hay que actualizar la información en un lugar y volver a correr `pnpm build && pnpm cv`.

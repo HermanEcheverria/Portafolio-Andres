@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
+import { profile } from '@/data/profile'
 
 interface Props {
   lang: Lang
@@ -9,10 +10,10 @@ interface Props {
 const t = useTranslations(Astro.props.lang)
 const year = new Date().getFullYear()
 const links = [
-  { href: 'https://github.com/HermanEcheverria', label: 'GitHub' },
-  { href: '#linkedin', label: 'LinkedIn' },
-  { href: '#correo', label: 'Correo' },
-]
+  { href: profile.links.github, label: 'GitHub' },
+  { href: profile.links.linkedin, label: 'LinkedIn' },
+  { href: `mailto:${profile.email}`, label: t('footer.email') },
+].filter((link) => link.href)
 ---
 
 <footer class="mt-24 border-t-[1.5px] border-tinta">

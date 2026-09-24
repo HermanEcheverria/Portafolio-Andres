@@ -1,0 +1,309 @@
+---
+/**
+ * CV en una sola columna, tamaño carta. Toma todo de los mismos datos del
+ * portafolio (perfil, experiencia, habilidades y proyectos) para que nunca se
+ * desincronicen. Texto real y sin tablas: lo pueden leer los sistemas ATS.
+ */
+import { Font } from 'astro:assets'
+import { getCollection } from 'astro:content'
+
+import { experience } from '@/data/experience'
+import { localize } from '@/data/localized'
+import { profile } from '@/data/profile'
+import { skillGroups } from '@/data/skills'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+import '@/styles/global.css'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const projects = (
+  await getCollection('projects', ({ id, data }) => id.startsWith(`${lang}/`) && !data.draft)
+).sort((a, b) => a.data.order - b.data.order)
+const pdf = lang === 'es' ? '/cv.pdf' : '/cv-en.pdf'
+const displayUrl = (url: string) => url.replace(/^https?:\/\//, '')
+const contact = [
+  { label: profile.email, href: `mailto:${profile.email}` },
+  { label: displayUrl(profile.website), href: profile.website },
+  { label: displayUrl(profile.links.github), href: profile.links.github },
+  profile.links.linkedin && {
+    label: displayUrl(profile.links.linkedin),
+    href: profile.links.linkedin,
+  },
+].filter((item): item is { label: string; href: string } => Boolean(item))
+---
+
+<!doctype html>
+<html lang={lang === 'es' ? 'es-GT' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{`${profile.name} · CV`}</title>
+    <meta name="description" content={localize(profile.summary, lang)} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-young-serif" preload />
+    <Font cssVariable="--font-plex-sans" preload />
+    <Font cssVariable="--font-plex-mono" />
+  </head>
+  <body class="cv-body">
+    <nav class="cv-toolbar" aria-label="CV">
+      <a href={lang === 'es' ? '/' : '/en'}>← {t('cv.back')}</a>
+      <a href={pdf} download class="cv-download">
+        {t('cv.download')}
+      </a>
+    </nav>
+
+    <article class="cv-page">
+      <header class="cv-header">
+        <h1>{profile.name}</h1>
+        <p class="cv-title">{localize(profile.title, lang)}</p>
+        <ul class="cv-contact">
+          {contact.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+          <li>{profile.location}</li>
+        </ul>
+      </header>
+
+      <section>
+        <h2>{t('cv.profile')}</h2>
+        <p>{localize(profile.summary, lang)}</p>
+      </section>
+
+      <section>
+        <h2>{t('experience.title')}</h2>
+        {experience.map((item) => (
+          <div class="cv-entry">
+            <div class="cv-entry-head">
+              <h3>
+                {localize(item.role, lang)} · {item.organization}
+              </h3>
+              <span>{localize(item.period, lang)}</span>
+            </div>
+            <p>{localize(item.description, lang)}</p>
+            {item.tags.length > 0 && (
+              <p class="cv-tags">{item.tags.map((tag) => localize(tag, lang)).join(' · ')}</p>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>{t('cv.projects')}</h2>
+        {projects.map((project) => (
+          <div class="cv-entry">
+            <div class="cv-entry-head">
+              <h3>{project.data.title}</h3>
+              <span>{project.data.year}</span>
+            </div>
+            <p>{project.data.summary}</p>
+            <p class="cv-tags">{project.data.stack.join(' · ')}</p>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>{t('experience.education')}</h2>
+        {profile.education.map((item) => (
+          <div class="cv-entry">
+            <div class="cv-entry-head">
+              <h3>{localize(item.degree, lang)}</h3>
+              <span>{localize(item.period, lang)}</span>
+            </div>
+            <p>{item.institution}</p>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>{t('experience.certifications')}</h2>
+        {profile.certifications.map((item) => (
+          <div class="cv-entry">
+            <div class="cv-entry-head">
+              <h3>
+                {item.name} · {item.issuer}
+              </h3>
+              <span>{localize(item.date, lang)}</span>
+            </div>
+            <p>{localize(item.detail, lang)}</p>
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>{t('cv.skills')}</h2>
+        <dl class="cv-skills">
+          {skillGroups.map((group) => (
+            <div>
+              <dt>{localize(group.title, lang)}</dt>
+              <dd>{group.items.map((item) => localize(item, lang)).join(', ')}</dd>
+            </div>
+          ))}
+          <div>
+            <dt>{t('cv.languages')}</dt>
+            <dd>
+              {profile.languages
+                .map((l) => `${localize(l.name, lang)}: ${localize(l.level, lang)}`)
+                .join(' · ')}
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </article>
+  </body>
+</html>
+
+<style>
+  @page {
+    size: letter;
+    margin: 0;
+  }
+  .cv-body {
+    background: var(--color-papel);
+    padding: 24px 16px 64px;
+  }
+  .cv-toolbar {
+    max-width: 8.5in;
+    margin: 0 auto 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  .cv-download {
+    border: 1.5px solid var(--color-tinta);
+    padding: 10px 16px;
+  }
+  .cv-download:hover {
+    background: var(--color-tinta);
+    color: var(--color-papel);
+  }
+  .cv-page {
+    box-sizing: border-box;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    padding: 0.6in 0.65in;
+    background: #fff;
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 10pt;
+    line-height: 1.45;
+    box-shadow: 8px 10px 0 var(--color-tinta);
+  }
+  .cv-header {
+    padding-bottom: 12pt;
+    margin-bottom: 4pt;
+    border-bottom: 3px double var(--color-tinta);
+  }
+  .cv-header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 25pt;
+    line-height: 1.1;
+    font-weight: 400;
+  }
+  .cv-title {
+    margin: 2pt 0 8pt;
+    color: var(--color-cobalto);
+    font-weight: 500;
+    font-size: 11pt;
+  }
+  .cv-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2pt 14pt;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 8.5pt;
+  }
+  .cv-contact a:hover {
+    color: var(--color-cobalto);
+  }
+  section {
+    margin-top: 12pt;
+    break-inside: avoid-page;
+  }
+  h2 {
+    margin: 0 0 6pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid var(--color-tinta);
+    font-family: var(--font-mono);
+    font-size: 8.5pt;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  p {
+    margin: 0;
+  }
+  .cv-entry + .cv-entry {
+    margin-top: 7pt;
+  }
+  .cv-entry {
+    break-inside: avoid;
+  }
+  .cv-entry-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12pt;
+    align-items: baseline;
+  }
+  .cv-entry-head h3 {
+    margin: 0;
+    font-size: 10.5pt;
+    font-weight: 600;
+  }
+  .cv-entry-head span {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 8.5pt;
+    color: var(--color-grafito);
+  }
+  .cv-tags {
+    margin-top: 2pt;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    color: var(--color-cobalto);
+  }
+  .cv-skills {
+    margin: 0;
+    display: grid;
+    gap: 3pt;
+  }
+  .cv-skills div {
+    display: grid;
+    grid-template-columns: 1.9in 1fr;
+    gap: 8pt;
+  }
+  .cv-skills dt {
+    font-weight: 600;
+  }
+  .cv-skills dd {
+    margin: 0;
+  }
+  @media print {
+    .cv-body {
+      background: #fff;
+      padding: 0;
+    }
+    .cv-toolbar {
+      display: none;
+    }
+    .cv-page {
+      box-shadow: none;
+      max-width: none;
+      min-height: auto;
+    }
+  }
+</style>

@@ -4,7 +4,7 @@
  * Cada una tiene su propio id de patrón para no chocar si se repiten en la página.
  */
 interface Props {
-  name: 'browser' | 'database' | 'container'
+  name: 'browser' | 'database' | 'sheet' | 'container'
 }
 
 const { name } = Astro.props
@@ -43,6 +43,14 @@ const id = `rayado-${name}`
         <ellipse cx="80" cy="32" rx="36" ry="11" fill="var(--color-papel-claro)" />
         <path d="M44 51 A36 11 0 0 0 116 51 M44 70 A36 11 0 0 0 116 70" />
         <circle cx="104" cy="32" r="3" fill="var(--color-cobalto)" stroke="none" />
+      </>
+    )}
+    {name === 'sheet' && (
+      <>
+        <rect x="42" y="28" width="84" height="78" fill={`url(#${id})`} stroke="none" />
+        <rect x="34" y="20" width="84" height="78" fill="var(--color-papel-claro)" />
+        <path d="M34 38 H118 M34 56 H118 M34 74 H118 M62 20 V98 M90 20 V98" stroke-width="1.5" />
+        <path d="M100 86 L 132 54 M122 54 H132 V64" stroke="var(--color-cobalto)" />
       </>
     )}
     {name === 'container' && (

@@ -1,28 +1,26 @@
-import type { Lang } from '@/i18n/ui'
-
-type Localized = Record<Lang, string>
+import type { Localizable } from '@/data/localized'
 
 export type Experience = {
   organization: string
-  role: Localized
+  role: Localizable
   /** Texto libre, p. ej. "2024 — 2025". */
-  period: Localized
-  description: Localized
-  tags: string[]
+  period: Localizable
+  description: Localizable
+  tags: Localizable[]
 }
 
 /**
  * Experiencia, de la más reciente a la más antigua.
- * [PENDIENTE] marca datos que Andrés aún no ha confirmado (fechas y puestos exactos).
+ * [PENDIENTE] marca datos que Andrés aún no ha confirmado.
  */
 export const experience: Experience[] = [
   {
     organization: 'GIT Guatemala',
-    role: { es: '[PENDIENTE: puesto] · Consultoría', en: '[PENDING: role] · Consulting' },
-    period: { es: '1 año · [PENDIENTE: fechas]', en: '1 year · [PENDING: dates]' },
+    role: { es: 'Ingeniero de soporte', en: 'Support Engineer' },
+    period: '2023 — 2024',
     description: {
-      es: '[PENDIENTE: qué hacías en la consultora y con qué tecnologías.]',
-      en: '[PENDING: what you did at the consulting firm and with which technologies.]',
+      es: 'Soporte a clientes y consultoría.',
+      en: 'Customer support and consulting.',
     },
     tags: [],
   },
@@ -31,10 +29,10 @@ export const experience: Experience[] = [
     role: { es: 'Prácticas profesionales', en: 'Internship' },
     period: { es: '[PENDIENTE: fechas]', en: '[PENDING: dates]' },
     description: {
-      es: 'Empresa de venta de fertilizantes e insumos agrícolas. En equipo implementamos un CRM y depuramos los datos de su base de datos.',
-      en: 'A company selling fertilizers and farming supplies. As a team we implemented a CRM and cleaned the data in their database.',
+      es: 'Empresa de venta de fertilizantes e insumos agrícolas. En equipo implementamos su CRM en Odoo y depuramos los datos de su base de datos; lo que estaba en Excel lo migramos con SQL y Python.',
+      en: 'A company selling fertilizers and farming supplies. As a team we implemented their CRM in Odoo and cleaned their database; data kept in Excel was migrated with SQL and Python.',
     },
-    tags: ['CRM'],
+    tags: ['Odoo', 'CRM', 'SQL', 'Python', { es: 'Migración de datos', en: 'Data migration' }],
   },
   {
     organization: 'Grupo PIT',

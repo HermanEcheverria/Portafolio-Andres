@@ -1,5 +1,6 @@
 ---
 import EngravedIcon from '@/components/EngravedIcon.astro'
+import { localize } from '@/data/localized'
 import { skillGroups } from '@/data/skills'
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
@@ -10,14 +11,14 @@ interface Props {
 
 const { lang } = Astro.props
 const t = useTranslations(lang)
-const icons = ['browser', 'database', 'container'] as const
+const icons = ['browser', 'database', 'sheet', 'container'] as const
 ---
 
 <section class="container-page py-20" aria-labelledby="instrumentos-titulo">
   <h2 id="instrumentos-titulo" data-reveal-scroll class="font-display text-5xl sm:text-6xl">
     {t('skills.title')}
   </h2>
-  <div class="mt-10 grid gap-7 md:grid-cols-3">
+  <div class="mt-10 grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
     {skillGroups.map((group, i) => (
       <article
         data-tilt
@@ -31,10 +32,10 @@ const icons = ['browser', 'database', 'container'] as const
           <p class="font-mono text-xs tracking-[0.2em] uppercase">
             {`${t('skills.figure')} ${group.figure}`}
           </p>
-          <h3 class="font-display text-2xl">{group.title[lang]}</h3>
+          <h3 class="font-display text-2xl">{localize(group.title, lang)}</h3>
           <ul class="flex flex-wrap gap-2 font-mono text-[13px]">
             {group.items.map((item) => (
-              <li class="border-[1.5px] border-tinta px-2.5 py-1">{item}</li>
+              <li class="border-[1.5px] border-tinta px-2.5 py-1">{localize(item, lang)}</li>
             ))}
           </ul>
         </div>

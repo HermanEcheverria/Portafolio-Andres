@@ -9,6 +9,7 @@ import WaveDivider from '@/components/WaveDivider.astro'
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import { profile } from '@/data/profile'
 
 interface Props {
   lang: Lang
@@ -81,8 +82,11 @@ const projects = (
       {t('contact.body')}
     </p>
     <p data-reveal-scroll class="mt-8 font-mono text-lg">
-      <a href="#correo" class="border-b-[1.5px] border-tinta pb-1 hover:text-cobalto">
-        {t('contact.email')}
+      <a
+        href={`mailto:${profile.email}`}
+        class="border-b-[1.5px] border-tinta pb-1 break-all hover:text-cobalto"
+      >
+        {profile.email}
       </a>
     </p>
   </section>
