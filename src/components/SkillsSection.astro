@@ -1,0 +1,44 @@
+---
+import EngravedIcon from '@/components/EngravedIcon.astro'
+import { skillGroups } from '@/data/skills'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const icons = ['browser', 'database', 'container'] as const
+---
+
+<section class="container-page py-20" aria-labelledby="instrumentos-titulo">
+  <h2 id="instrumentos-titulo" data-reveal-scroll class="font-display text-5xl sm:text-6xl">
+    {t('skills.title')}
+  </h2>
+  <div class="mt-10 grid gap-7 md:grid-cols-3">
+    {skillGroups.map((group, i) => (
+      <article
+        data-tilt
+        data-reveal-scroll
+        class="flex flex-col border-[1.5px] border-tinta bg-papel-claro"
+      >
+        <div class="flex h-44 items-center justify-center border-b-[1.5px] border-tinta">
+          <EngravedIcon name={icons[i]} />
+        </div>
+        <div class="flex flex-col gap-4 p-6">
+          <p class="font-mono text-xs tracking-[0.2em] uppercase">
+            {`${t('skills.figure')} ${group.figure}`}
+          </p>
+          <h3 class="font-display text-2xl">{group.title[lang]}</h3>
+          <ul class="flex flex-wrap gap-2 font-mono text-[13px]">
+            {group.items.map((item) => (
+              <li class="border-[1.5px] border-tinta px-2.5 py-1">{item}</li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

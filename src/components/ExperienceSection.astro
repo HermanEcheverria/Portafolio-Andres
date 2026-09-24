@@ -1,0 +1,52 @@
+---
+import { experience } from '@/data/experience'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+---
+
+<section
+  id="experiencia"
+  class="container-page scroll-mt-8 border-t-[1.5px] border-tinta py-20"
+  aria-labelledby="experiencia-titulo"
+>
+  <div class="flex flex-wrap items-baseline justify-between gap-4">
+    <h2 id="experiencia-titulo" data-reveal-scroll class="font-display text-5xl sm:text-6xl">
+      {t('experience.title')}
+    </h2>
+    <p data-reveal-scroll class="font-mono text-[13px] tracking-[0.2em] uppercase">
+      {t('experience.subtitle')}
+    </p>
+  </div>
+
+  <ol class="mt-12 border-t-[1.5px] border-tinta">
+    {experience.map((item) => (
+      <li
+        data-reveal-scroll
+        class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
+      >
+        <p class="font-mono text-sm text-grafito">{item.period[lang]}</p>
+        <div class="flex flex-col gap-1">
+          <h3 class="font-display text-3xl leading-tight">{item.organization}</h3>
+          <p class="font-medium text-cobalto">{item.role[lang]}</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          <p class="leading-relaxed text-tinta-suave">{item.description[lang]}</p>
+          {item.tags.length > 0 && (
+            <ul class="flex flex-wrap gap-2 font-mono text-xs">
+              {item.tags.map((tag) => (
+                <li class="border-[1.5px] border-tinta px-2.5 py-1">{tag}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -1,0 +1,117 @@
+---
+// Guiño a los juegos de FromSoftware: la 404 es una pantalla de "Has muerto".
+import { useTranslations } from '@/i18n/utils'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+const t = useTranslations('es')
+const en = useTranslations('en')
+---
+
+<BaseLayout title={`${t('notfound.title')} · Andrés Echeverría`}>
+  <section class="flex min-h-[70vh] flex-col items-center justify-center gap-12 py-20">
+    <div class="muerte flex w-full flex-col items-center gap-2 py-12">
+      <h1 class="muerte-titulo font-display text-[clamp(3.5rem,11vw,9rem)] leading-none uppercase">
+        {t('notfound.title')}
+      </h1>
+      <p lang="en" class="font-mono text-xs tracking-[0.5em] text-papel/60 uppercase">
+        {en('notfound.title')}
+      </p>
+    </div>
+
+    <p class="max-w-md px-5 text-center text-lg">{t('notfound.body')}</p>
+
+    <a
+      href="/"
+      class="group flex flex-col items-center gap-4 font-mono text-sm tracking-[0.2em] uppercase"
+    >
+      <svg
+        viewBox="0 0 120 140"
+        width="96"
+        height="112"
+        aria-hidden="true"
+        class="hoguera text-tinta transition-transform duration-500 group-hover:-translate-y-1"
+      >
+        <defs>
+          <pattern id="rayado-fuego" width="4" height="4" patternUnits="userSpaceOnUse">
+            <rect width="4" height="1.2" fill="currentColor"></rect>
+          </pattern>
+        </defs>
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+          <path
+            class="llama"
+            d="M60 18 C 78 48, 92 60, 84 86 C 78 104, 42 104, 36 86 C 30 66, 50 58, 60 18 Z"
+            fill="url(#rayado-fuego)"
+          ></path>
+          <path
+            class="llama llama-2"
+            d="M60 52 C 70 68, 74 78, 68 92 C 64 100, 56 100, 52 92 C 48 80, 56 72, 60 52 Z"
+            fill="var(--color-papel)"
+          ></path>
+          <path d="M60 4 V 96" stroke-width="3"></path>
+          <path d="M52 30 H 68" stroke-width="3"></path>
+          <path d="M22 116 L 98 104 M22 104 L 98 118" stroke-width="3"></path>
+          <ellipse
+            cx="60"
+            cy="126"
+            rx="44"
+            ry="8"
+            fill="url(#rayado-fuego)"
+            stroke="none"
+          ></ellipse>
+        </g>
+      </svg>
+      <span class="border-b-[1.5px] border-tinta pb-1 group-hover:text-cobalto">
+        {t('notfound.cta')}
+      </span>
+    </a>
+  </section>
+</BaseLayout>
+
+<style>
+  .muerte {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-tinta) 92%, transparent) 25%,
+      color-mix(in srgb, var(--color-tinta) 92%, transparent) 75%,
+      transparent
+    );
+    animation: aparecer 1.6s ease-out both;
+  }
+  .muerte-titulo {
+    color: #b3261e;
+    letter-spacing: 0.08em;
+    animation: expandir 4s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  }
+  .llama {
+    transform-origin: 60px 100px;
+    animation: arder 1.8s ease-in-out infinite alternate;
+  }
+  .llama-2 {
+    animation-duration: 1.2s;
+  }
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes expandir {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+      letter-spacing: 0.02em;
+    }
+  }
+  @keyframes arder {
+    to {
+      transform: scale(1.04, 0.95) skewX(-2deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .muerte,
+    .muerte-titulo,
+    .llama {
+      animation: none;
+    }
+  }
+</style>

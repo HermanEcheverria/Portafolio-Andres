@@ -1,8 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
 
+import ExperienceSection from '@/components/ExperienceSection.astro'
 import Hero from '@/components/Hero.astro'
 import ProjectPlate from '@/components/ProjectPlate.astro'
+import SkillsSection from '@/components/SkillsSection.astro'
 import WaveDivider from '@/components/WaveDivider.astro'
 import type { Lang } from '@/i18n/ui'
 import { useTranslations } from '@/i18n/utils'
@@ -43,16 +45,24 @@ const projects = (
     </div>
   </section>
 
+  <ExperienceSection lang={lang} />
+  <SkillsSection lang={lang} />
+
   <section
     id="sobre-mi"
     class="container-page grid scroll-mt-8 gap-8 border-t-[1.5px] border-tinta py-20 md:grid-cols-[1fr_1.4fr]"
+    aria-labelledby="sobre-mi-titulo"
   >
-    <h2 data-reveal-scroll class="font-display text-5xl">
+    <h2 id="sobre-mi-titulo" data-reveal-scroll class="font-display text-5xl">
       {t('about.title')}
     </h2>
-    <p data-reveal-scroll class="text-xl leading-relaxed">
-      {t('about.body')}
-    </p>
+    <div class="flex flex-col gap-5 text-xl leading-relaxed">
+      <p data-reveal-scroll>{t('about.p1')}</p>
+      <p data-reveal-scroll>{t('about.p2')}</p>
+      <p data-reveal-scroll class="text-tinta-suave italic">
+        {t('about.p3')}
+      </p>
+    </div>
   </section>
 
   <section
@@ -69,6 +79,11 @@ const projects = (
     </h2>
     <p data-reveal-scroll class="mt-6 max-w-2xl text-xl leading-relaxed">
       {t('contact.body')}
+    </p>
+    <p data-reveal-scroll class="mt-8 font-mono text-lg">
+      <a href="#correo" class="border-b-[1.5px] border-tinta pb-1 hover:text-cobalto">
+        {t('contact.email')}
+      </a>
     </p>
   </section>
 </BaseLayout>

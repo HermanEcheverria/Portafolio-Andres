@@ -34,12 +34,16 @@ function initSmoothScroll() {
   gsap.ticker.add((time) => lenis.raf(time * 1000))
   gsap.ticker.lagSmoothing(0)
 
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+  // Enlaces a secciones de la página actual ("#x" o "/#x"): scroll suave con Lenis
+  document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
-      const target = link.getAttribute('href')
-      if (!target || target === '#' || !document.querySelector(target)) return
+      const url = new URL(link.href)
+      if (url.pathname !== window.location.pathname || !url.hash) return
+      const target = document.querySelector(url.hash)
+      if (!target) return
       event.preventDefault()
-      lenis.scrollTo(target, { offset: -24 })
+      lenis.scrollTo(target as HTMLElement, { offset: -24 })
+      history.replaceState(null, '', url.hash)
     })
   })
 }

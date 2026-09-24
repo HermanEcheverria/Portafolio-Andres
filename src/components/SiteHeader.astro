@@ -9,10 +9,13 @@ interface Props {
 const { lang } = Astro.props
 const t = useTranslations(lang)
 const other: Lang = lang === 'es' ? 'en' : 'es'
+// Rutas absolutas: el menú también funciona desde otras páginas (p. ej. la 404)
+const home = localizedPath(lang)
 const links = [
-  { href: '#laminas', label: t('nav.projects') },
-  { href: '#sobre-mi', label: t('nav.about') },
-  { href: '#contacto', label: t('nav.contact') },
+  { href: `${home}#laminas`, label: t('nav.projects') },
+  { href: `${home}#experiencia`, label: t('nav.experience') },
+  { href: `${home}#sobre-mi`, label: t('nav.about') },
+  { href: `${home}#contacto`, label: t('nav.contact') },
 ]
 ---
 

@@ -12,12 +12,13 @@ export const ui = {
     'meta.description':
       'Portafolio de Andrés Echeverría: proyectos de software de punta a punta, del servidor a la interfaz.',
     'nav.projects': 'Láminas',
+    'nav.experience': 'Experiencia',
     'nav.about': 'Sobre mí',
     'nav.contact': 'Contacto',
     'nav.skip': 'Saltar al contenido',
     'hero.eyebrow': 'Lámina 0 · Retrato del autor',
     'hero.lead':
-      'Ingeniero en Sistemas y Ciencias de la Computación en formación. Hago software con el detalle de un grabado:',
+      'Ingeniero en Sistemas y Ciencias de la Computación en formación, enfocado en front-end y bases de datos. Trabajo ordenado y limpio, como un grabado:',
     'hero.accent': 'cada línea tiene un propósito.',
     'hero.cta.projects': 'Ver las láminas',
     'hero.cta.cv': 'CV (PDF)',
@@ -27,10 +28,24 @@ export const ui = {
     'projects.subtitle': 'Cada proyecto, con su diagrama grabado',
     'projects.plate': 'Lámina',
     'projects.case': 'Ver caso de estudio',
+    'experience.title': 'Experiencia',
+    'experience.subtitle': 'Registro de campo',
+    'skills.title': 'Instrumentos',
+    'skills.figure': 'Fig.',
     'about.title': 'Sobre mí',
-    'about.body': '[PENDIENTE: quién eres, qué te gusta construir y qué tipo de trabajo buscas.]',
+    'about.p1':
+      'Me gusta trabajar de forma ordenada y limpia, y eso se nota en lo que construyo: desde interfaces cuidadas hasta bases de datos bien depuradas.',
+    'about.p2':
+      'Disfruto sobre todo el front-end y el diseño de bases de datos. He trabajado en Linux y Windows, y siempre ando buscando nuevas certificaciones y retos.',
+    'about.p3':
+      'Fuera del código, soy fan de los juegos de FromSoftware. Si te pierdes en este sitio, hay una hoguera esperándote.',
     'contact.title': '¿Construimos algo?',
-    'contact.body': '[PENDIENTE: disponibilidad y mejor forma de contactarte.]',
+    'contact.body':
+      'Actualmente busco empleo. Si tienes un proyecto o una vacante donde encaje, escríbeme.',
+    'contact.email': '[PENDIENTE: correo]',
+    'notfound.title': 'Has muerto',
+    'notfound.body': 'Esta página no existe. Descansa un momento y vuelve a intentarlo.',
+    'notfound.cta': 'Descansar en la hoguera',
     'footer.printed': 'impreso en HTML',
   },
   en: {
@@ -38,12 +53,13 @@ export const ui = {
     'meta.description':
       'Portfolio of Andrés Echeverría: end-to-end software projects, from the server to the interface.',
     'nav.projects': 'Plates',
+    'nav.experience': 'Experience',
     'nav.about': 'About',
     'nav.contact': 'Contact',
     'nav.skip': 'Skip to content',
     'hero.eyebrow': 'Plate 0 · Portrait of the author',
     'hero.lead':
-      'Systems and Computer Science engineer in training. I build software with the care of an engraving:',
+      'Systems and Computer Science engineer in training, focused on front-end and databases. I work in an orderly, clean way, like an engraving:',
     'hero.accent': 'every line has a purpose.',
     'hero.cta.projects': 'See the plates',
     'hero.cta.cv': 'Résumé (PDF)',
@@ -53,10 +69,24 @@ export const ui = {
     'projects.subtitle': 'Every project, with its engraved diagram',
     'projects.plate': 'Plate',
     'projects.case': 'Read the case study',
+    'experience.title': 'Experience',
+    'experience.subtitle': 'Field notes',
+    'skills.title': 'Instruments',
+    'skills.figure': 'Fig.',
     'about.title': 'About me',
-    'about.body': '[PENDING: who you are, what you like to build and what kind of work you want.]',
+    'about.p1':
+      'I like to work in an orderly, clean way, and it shows in what I build: from careful interfaces to well-cleaned databases.',
+    'about.p2':
+      'I especially enjoy front-end work and database design. I have worked on Linux and Windows, and I am always looking for new certifications and challenges.',
+    'about.p3':
+      'Away from code, I am a FromSoftware fan. If you get lost on this site, there is a bonfire waiting for you.',
     'contact.title': 'Shall we build something?',
-    'contact.body': '[PENDING: availability and best way to reach you.]',
+    'contact.body':
+      'I am currently looking for a job. If you have a project or an opening where I could fit, write to me.',
+    'contact.email': '[PENDING: email]',
+    'notfound.title': 'You died',
+    'notfound.body': 'This page does not exist. Rest for a moment and try again.',
+    'notfound.cta': 'Rest at the bonfire',
     'footer.printed': 'printed in HTML',
   },
 } as const satisfies Record<Lang, Record<string, string>>
