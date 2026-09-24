@@ -54,7 +54,8 @@ const alternates = (['es', 'en'] as const).map((l) => ({
     <meta property="og:locale" content={lang === 'es' ? 'es_GT' : 'en_US'} />
     <meta name="generator" content={Astro.generator} />
     <Font cssVariable="--font-young-serif" preload />
-    <Font cssVariable="--font-plex-sans" preload />
+    {/* Solo se precarga lo que se ve al abrir; el resto llega después sin bloquear */}
+    <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-plex-mono" />
   </head>
   <body class="min-h-dvh">

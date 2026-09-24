@@ -56,7 +56,9 @@ function animateIntro() {
     timeline.from(split.chars, { yPercent: 110, duration: DURATION.slow, stagger: 0.035 }, 0)
   })
 
-  timeline.from('[data-reveal]', { y: 24, autoAlpha: 0, stagger: STAGGER }, 0.35)
+  // Solo se desliza: si empezara invisible, el navegador contaría el texto principal
+  // como pintado tarde (Largest Contentful Paint) y la página parecería más lenta
+  timeline.from('[data-reveal]', { y: 24, stagger: STAGGER }, 0.35)
 }
 
 function animateOnScroll() {
