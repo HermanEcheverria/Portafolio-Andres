@@ -7,6 +7,7 @@
 import { Font } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
+import { certificationsByIssuer, inProgress } from '@/data/certifications'
 import { experience } from '@/data/experience'
 import { localize } from '@/data/localized'
 import { profile } from '@/data/profile'
@@ -125,17 +126,21 @@ const contact = [
 
       <section>
         <h2>{t('experience.certifications')}</h2>
-        {profile.certifications.map((item) => (
-          <div class="cv-entry">
-            <div class="cv-entry-head">
-              <h3>
-                {item.name} · {item.issuer}
-              </h3>
-              <span>{localize(item.date, lang)}</span>
-            </div>
-            <p>{localize(item.detail, lang)}</p>
-          </div>
+        {certificationsByIssuer({ forCv: true }).map((group) => (
+          <p class="cv-cert">
+            <strong>{group.issuer}:</strong>{' '}
+            {group.items
+              .map(
+                (cert) =>
+                  `${cert.name}${cert.note ? `, ${localize(cert.note, lang)}` : ''}, ${cert.date.slice(0, 4)}`,
+              )
+              .join(' · ')}
+          </p>
         ))}
+        <p class="cv-cert">
+          <strong>{t('experience.inProgress')}:</strong>{' '}
+          {inProgress.map((course) => `${course.name} (${course.provider})`).join(' · ')}
+        </p>
       </section>
 
       <section>
@@ -192,12 +197,12 @@ const contact = [
     max-width: 8.5in;
     min-height: 11in;
     margin: 0 auto;
-    padding: 0.6in 0.65in;
+    padding: 0.42in 0.6in;
     background: #fff;
     color: var(--color-tinta);
     font-family: var(--font-sans);
-    font-size: 10pt;
-    line-height: 1.45;
+    font-size: 9.5pt;
+    line-height: 1.4;
     box-shadow: 8px 10px 0 var(--color-tinta);
   }
   .cv-header {
@@ -232,7 +237,7 @@ const contact = [
     color: var(--color-cobalto);
   }
   section {
-    margin-top: 12pt;
+    margin-top: 8pt;
     break-inside: avoid-page;
   }
   h2 {
@@ -249,7 +254,7 @@ const contact = [
     margin: 0;
   }
   .cv-entry + .cv-entry {
-    margin-top: 7pt;
+    margin-top: 6pt;
   }
   .cv-entry {
     break-inside: avoid;
@@ -277,6 +282,9 @@ const contact = [
     font-size: 8pt;
     color: var(--color-cobalto);
   }
+  .cv-cert + .cv-cert {
+    margin-top: 3pt;
+  }
   .cv-skills {
     margin: 0;
     display: grid;
@@ -284,7 +292,7 @@ const contact = [
   }
   .cv-skills div {
     display: grid;
-    grid-template-columns: 1.9in 1fr;
+    grid-template-columns: 2.3in 1fr;
     gap: 8pt;
   }
   .cv-skills dt {

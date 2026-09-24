@@ -23,8 +23,8 @@ export const profile = {
     linkedin: '',
   },
   summary: {
-    es: 'Estudiante de último año de Ingeniería en Sistemas y Ciencias de la Computación, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y limpieza y migración de datos con SQL y Python. Trabajo de forma ordenada y limpia, y busco constantemente nuevas certificaciones y retos.',
-    en: 'Final-year Systems and Computer Science Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data cleaning and migration with SQL and Python. I work in an orderly, clean way and I am always looking for new certifications and challenges.',
+    es: 'Estudiante de último año de Ingeniería en Sistemas y Ciencias de la Computación, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y limpieza y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y con formación en ciberseguridad (Cisco). Trabajo de forma ordenada y limpia, y busco constantemente nuevos retos.',
+    en: 'Final-year Systems and Computer Science Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data cleaning and migration with SQL and Python. Certified in project management (PMI, IBM) with cybersecurity training (Cisco). I work in an orderly, clean way and I am always looking for new challenges.',
   } satisfies Localizable,
   education: [
     {
@@ -34,8 +34,8 @@ export const profile = {
         en: 'B.S. in Systems and Computer Science Engineering',
       } satisfies Localizable,
       period: {
-        es: '[PENDIENTE: año de inicio] — 2026 · último semestre',
-        en: '[PENDING: start year] — 2026 · final semester',
+        es: '2021 — 2026 · último semestre',
+        en: '2021 — 2026 · final semester',
       } satisfies Localizable,
     },
   ],
@@ -44,18 +44,6 @@ export const profile = {
     {
       name: { es: 'Inglés', en: 'English' },
       level: { es: 'B2 (MCER), certificado', en: 'B2 (CEFR), certified' },
-    },
-  ],
-  /** Más certificaciones se agregan aquí; aparecen en el portafolio y en el CV. */
-  certifications: [
-    {
-      name: 'ELASH II',
-      issuer: 'Universidad del Valle de Guatemala · CIE',
-      date: { es: 'Junio 2026', en: 'June 2026' },
-      detail: {
-        es: '166/200 · Inglés nivel B2 (MCER)',
-        en: '166/200 · English level B2 (CEFR)',
-      },
     },
   ],
 }

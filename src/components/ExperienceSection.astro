@@ -1,4 +1,5 @@
 ---
+import { certificationsByIssuer, formatMonthYear, inProgress } from '@/data/certifications'
 import { experience } from '@/data/experience'
 import { localize } from '@/data/localized'
 import { profile } from '@/data/profile'
@@ -72,18 +73,42 @@ const t = useTranslations(lang)
     {t('experience.certifications')}
   </h3>
   <ul class="mt-6 border-t-[1.5px] border-tinta">
-    {profile.certifications.map((item) => (
+    {certificationsByIssuer().map((group) => (
       <li
         data-reveal-scroll
-        class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
+        class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10"
       >
-        <p class="font-mono text-sm text-grafito">{localize(item.date, lang)}</p>
-        <div class="flex flex-col gap-1">
-          <p class="font-display text-3xl leading-tight">{item.name}</p>
-          <p class="font-medium text-cobalto">{item.issuer}</p>
-        </div>
-        <p class="leading-relaxed text-tinta-suave">{localize(item.detail, lang)}</p>
+        <p class="font-display text-2xl leading-tight">{group.issuer}</p>
+        <ul class="flex flex-col gap-3">
+          {group.items.map((cert) => (
+            <li class="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6">
+              <span class="font-medium">
+                {cert.name}
+                {cert.note && (
+                  <span class="font-normal text-tinta-suave"> · {localize(cert.note, lang)}</span>
+                )}
+              </span>
+              <span class="font-mono text-sm text-grafito">{formatMonthYear(cert.date, lang)}</span>
+            </li>
+          ))}
+        </ul>
       </li>
     ))}
+    <li
+      data-reveal-scroll
+      class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10"
+    >
+      <p class="font-mono text-sm tracking-[0.2em] text-cobalto uppercase">
+        {t('experience.inProgress')}
+      </p>
+      <ul class="flex flex-col gap-3">
+        {inProgress.map((course) => (
+          <li>
+            <span class="font-medium">{course.name}</span>
+            <span class="text-tinta-suave"> · {course.provider}</span>
+          </li>
+        ))}
+      </ul>
+    </li>
   </ul>
 </section>
