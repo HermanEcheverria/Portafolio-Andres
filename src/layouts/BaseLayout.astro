@@ -13,6 +13,10 @@ interface Props {
   path?: string
   /** Imagen para compartir (Open Graph), relativa al sitio. */
   image?: string
+  /** false si la página no existe en el otro idioma: no se anuncia la traducción. */
+  translated?: boolean
+  /** false para páginas como la 404: sin canonical ni hreflang, y fuera de buscadores. */
+  indexable?: boolean
 }
 
 const lang = getLang(Astro.currentLocale)
@@ -22,9 +26,11 @@ const {
   description = t('meta.description'),
   path = '/',
   image = lang === 'es' ? '/og.png' : '/og-en.png',
+  translated = true,
+  indexable = true,
 } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
-const alternates = (['es', 'en'] as const).map((l) => ({
+const alternates = (translated ? (['es', 'en'] as const) : [lang]).map((l) => ({
   lang: l,
   href: new URL(localizedPath(l, path), Astro.site).toString(),
 }))
@@ -37,10 +43,16 @@ const alternates = (['es', 'en'] as const).map((l) => ({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {alternates.map((a) => (
-      <link rel="alternate" hreflang={a.lang} href={a.href} />
-    ))}
+    {indexable ? (
+      <>
+        <link rel="canonical" href={canonical} />
+        {alternates.map((a) => (
+          <link rel="alternate" hreflang={a.lang} href={a.href} />
+        ))}
+      </>
+    ) : (
+      <meta name="robots" content="noindex" />
+    )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#ece7dc" />
     <meta property="og:type" content="website" />
@@ -65,7 +77,7 @@ const alternates = (['es', 'en'] as const).map((l) => ({
     >
       {t('nav.skip')}
     </a>
-    <SiteHeader lang={lang} path={path} />
+    <SiteHeader lang={lang} path={translated ? path : '/'} />
     <main id="contenido">
       <slot />
     </main>

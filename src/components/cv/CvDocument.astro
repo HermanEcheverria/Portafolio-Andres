@@ -18,7 +18,7 @@ import { localize } from '@/data/localized'
 import { profile } from '@/data/profile'
 import { skillGroups } from '@/data/skills'
 import type { Lang } from '@/i18n/ui'
-import { useTranslations } from '@/i18n/utils'
+import { localizedPath, useTranslations } from '@/i18n/utils'
 import { getProjects } from '@/lib/projects'
 import '@/styles/global.css'
 
@@ -62,7 +62,7 @@ const contact = [
   </head>
   <body class="cv-body">
     <nav class="cv-toolbar" aria-label="CV">
-      <a href={lang === 'es' ? '/' : '/en'}>← {t('cv.back')}</a>
+      <a href={localizedPath(lang)}>← {t('cv.back')}</a>
       <a href={pdf} download class="cv-download">
         {t('cv.download')}
       </a>

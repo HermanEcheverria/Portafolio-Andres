@@ -2,7 +2,7 @@
 // Las rutas de Astro son absolutas ("/_astro/…"), así que file:// no sirve.
 import { createReadStream, existsSync, statSync } from 'node:fs'
 import { createServer } from 'node:http'
-import { extname, join, resolve } from 'node:path'
+import { extname, join, resolve, sep } from 'node:path'
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -22,13 +22,21 @@ export async function startStaticServer() {
     throw new Error('No encuentro dist/. Corre primero: pnpm build')
   }
   const server = createServer((req, res) => {
-    const path = decodeURIComponent(new URL(req.url, 'http://x').pathname)
+    let path
+    try {
+      path = decodeURIComponent(new URL(req.url, 'http://x').pathname)
+    } catch {
+      res.writeHead(400).end()
+      return
+    }
     const candidates = [
       join(DIST, path),
       join(DIST, path, 'index.html'),
       join(DIST, `${path}.html`),
     ]
-    const file = candidates.find((f) => f.startsWith(DIST) && existsSync(f) && statSync(f).isFile())
+    const file = candidates.find(
+      (f) => (f === DIST || f.startsWith(DIST + sep)) && existsSync(f) && statSync(f).isFile(),
+    )
     if (!file) {
       res.writeHead(404).end()
       return

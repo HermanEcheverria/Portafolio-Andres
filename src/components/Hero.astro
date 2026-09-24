@@ -1,6 +1,6 @@
 ---
 import type { Lang } from '@/i18n/ui'
-import { useTranslations } from '@/i18n/utils'
+import { localizedPath, useTranslations } from '@/i18n/utils'
 
 interface Props {
   lang: Lang
@@ -37,7 +37,7 @@ const t = useTranslations(Astro.props.lang)
         {t('hero.cta.projects')}
       </a>
       <a
-        href={Astro.props.lang === 'es' ? '/cv' : '/en/cv'}
+        href={localizedPath(Astro.props.lang, '/cv')}
         class="inline-flex h-13 items-center border-[1.5px] border-tinta px-6.5 font-medium transition-colors hover:bg-tinta hover:text-papel"
       >
         {t('hero.cta.cv')}
@@ -64,20 +64,27 @@ const t = useTranslations(Astro.props.lang)
 
   const canvas = document.querySelector<HTMLCanvasElement>('[data-engraved-scene]')
   if (canvas) {
-    const styles = getComputedStyle(document.documentElement)
-    const color = (name: string) => styles.getPropertyValue(name).trim()
-    const unmount = mountEngravedScene(canvas, {
-      still: prefersReducedMotion(),
-      colors: {
-        paper: color('--color-papel'),
-        ink: color('--color-tinta'),
-        accent: color('--color-cobalto'),
-      },
-    })
-    // Sin WebGL 2: el pie de figura sobra y se deja el espacio con rayado
-    if (!unmount) {
+    // Sin WebGL 2, shader que no compila o contexto perdido: rayado en lugar de la escena
+    const showFallback = () => {
       canvas.classList.add('rayado', 'rounded-full')
       canvas.nextElementSibling?.remove()
+    }
+    const styles = getComputedStyle(document.documentElement)
+    const color = (name: string) => styles.getPropertyValue(name).trim()
+    try {
+      const unmount = mountEngravedScene(canvas, {
+        still: prefersReducedMotion(),
+        onContextLost: showFallback,
+        colors: {
+          paper: color('--color-papel'),
+          ink: color('--color-tinta'),
+          accent: color('--color-cobalto'),
+        },
+      })
+      if (!unmount) showFallback()
+    } catch (error) {
+      console.error(error)
+      showFallback()
     }
   }
 </script>

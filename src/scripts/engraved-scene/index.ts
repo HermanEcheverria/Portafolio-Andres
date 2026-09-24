@@ -10,11 +10,14 @@ type SceneOptions = {
   colors: SceneColors
   /** Sin animación: dibuja un solo cuadro (usuarios con "reducir movimiento"). */
   still?: boolean
+  /** Se llama si el navegador descarta el contexto WebGL (frecuente en celulares). */
+  onContextLost?: () => void
 }
 
 /**
  * Monta la escena en un <canvas> y devuelve una función para desmontarla.
- * Devuelve null si el navegador no tiene WebGL 2 (el HTML muestra un respaldo).
+ * Devuelve null si el navegador no tiene WebGL 2 y lanza un error si el shader no
+ * compila: en ambos casos quien la llama muestra el respaldo.
  */
 export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOptions) {
   const gl = canvas.getContext('webgl2', { antialias: true, powerPreference: 'low-power' })
@@ -39,6 +42,8 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
   gl.uniform3fv(uniform('uInk'), hexToRgb(options.colors.ink))
   gl.uniform3fv(uniform('uAccent'), hexToRgb(options.colors.accent))
 
+  // Cambiar el tamaño del canvas borra lo dibujado: en modo quieto hay que redibujar
+  let ready = false
   const resize = () => {
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     const { width, height } = canvas.getBoundingClientRect()
@@ -46,6 +51,7 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
     canvas.height = Math.round(height * dpr)
     gl.viewport(0, 0, canvas.width, canvas.height)
     gl.uniform2f(uRes, canvas.width, canvas.height)
+    if (ready && options.still) draw(2)
   }
   const observer = new ResizeObserver(resize)
   observer.observe(canvas)
@@ -91,6 +97,14 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
     tick()
   }
 
+  const onContextLost = (event: Event) => {
+    event.preventDefault()
+    cancelAnimationFrame(frame)
+    options.onContextLost?.()
+  }
+  canvas.addEventListener('webglcontextlost', onContextLost)
+
+  ready = true
   if (options.still) draw(2)
   else loop()
 
@@ -100,6 +114,7 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
     visibility.disconnect()
     window.removeEventListener('pointermove', onPointerMove)
     document.removeEventListener('pointerleave', onPointerLeave)
+    canvas.removeEventListener('webglcontextlost', onContextLost)
     gl.getExtension('WEBGL_lose_context')?.loseContext()
   }
 }

@@ -21,12 +21,16 @@ const { title, summary, year, role, stack } = project.data
 const previous = projects[index - 1]
 const next = projects[index + 1]
 const plate = `${t('projects.plate')} ${toRoman(index + 1)}`
+// Solo se enlaza la otra versión si existe y está publicada en ese idioma
+const otherLang: Lang = lang === 'es' ? 'en' : 'es'
+const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) === slug)
 ---
 
 <BaseLayout
   title={`${title} · Andrés Echeverría`}
   description={summary}
   path={projectPath(project)}
+  translated={translated}
 >
   <article class="container-page pt-10 pb-6">
     <a

@@ -12,7 +12,8 @@ const LINE_GAP = 4.2 // separación entre líneas
 const MAX_WIDTH = 3.9 // grosor máximo de una línea (zonas más oscuras)
 const STEP = 2 // resolución horizontal del muestreo
 
-const image = sharp(INPUT).greyscale().normalise()
+// flatten: un fondo transparente se leería como negro y se llenaría de tinta
+const image = sharp(INPUT).flatten({ background: '#ffffff' }).greyscale().normalise()
 const { width: srcW, height: srcH } = await image.metadata()
 const height = Math.round((WIDTH * srcH) / srcW)
 const { data } = await image

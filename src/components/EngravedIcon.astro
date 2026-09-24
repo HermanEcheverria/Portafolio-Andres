@@ -3,8 +3,10 @@
  * Pequeñas ilustraciones en grabado: contorno en tinta y sombra con rayado.
  * Cada una tiene su propio id de patrón para no chocar si se repiten en la página.
  */
+import type { SkillGroup } from '@/data/skills'
+
 interface Props {
-  name: 'browser' | 'database' | 'sheet' | 'container'
+  name: SkillGroup['icon']
 }
 
 const { name } = Astro.props

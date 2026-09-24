@@ -44,6 +44,11 @@ function initSmoothScroll() {
       event.preventDefault()
       lenis.scrollTo(target as HTMLElement, { offset: -24 })
       history.replaceState(null, '', url.hash)
+      // preventDefault evita que el navegador mueva el foco: lo movemos nosotros para
+      // que "Saltar al contenido" y los lectores de pantalla sigan funcionando
+      const element = target as HTMLElement
+      if (!element.hasAttribute('tabindex')) element.setAttribute('tabindex', '-1')
+      element.focus({ preventScroll: true })
     })
   })
 }
@@ -53,7 +58,17 @@ function animateIntro() {
 
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((title) => {
     const split = SplitText.create(title, { type: 'chars', mask: 'chars' })
-    timeline.from(split.chars, { yPercent: 110, duration: DURATION.slow, stagger: 0.035 }, 0)
+    // Al terminar se deshace la división: las máscaras recortarían acentos y la sombra
+    timeline.from(
+      split.chars,
+      {
+        yPercent: 110,
+        duration: DURATION.slow,
+        stagger: 0.035,
+        onComplete: () => split.revert(),
+      },
+      0,
+    )
   })
 
   // Solo se desliza: si empezara invisible, el navegador contaría el texto principal
