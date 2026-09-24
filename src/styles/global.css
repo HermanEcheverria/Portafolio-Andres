@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+
+/*
+ * Sistema de diseño "Grabado en 3D": papel, tinta y un azul cobalto de segunda tinta.
+ * Los tokens de movimiento viven en src/lib/motion.ts para compartirlos con GSAP.
+ */
+@theme {
+  --color-papel: #ece7dc;
+  --color-papel-claro: #f4f0e7;
+  --color-tinta: #161514;
+  --color-tinta-suave: #3d3a35;
+  --color-grafito: #5a564f;
+  --color-cobalto: #2743d6;
+  --color-cobalto-oscuro: #1a2f9e;
+
+  --font-display: var(--font-young-serif);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+
+  --ease-grabado: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-papel font-sans text-tinta antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-cobalto;
+  }
+  ::selection {
+    @apply bg-cobalto text-papel;
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-10 lg:px-18;
+}
+
+/* Rayado diagonal de grabado para fondos */
+@utility rayado {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-tinta) 55%, transparent) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+/* Sombra desplazada, como una segunda tinta mal registrada */
+@utility sombra-impresa {
+  text-shadow: 0.035em 0.035em 0 color-mix(in srgb, var(--color-cobalto) 85%, transparent);
+}
+
+/* Lenis controla el scroll suave */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}

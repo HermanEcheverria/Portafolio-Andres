@@ -1,0 +1,45 @@
+---
+import type { Lang } from '@/i18n/ui'
+import { localizedPath, useTranslations } from '@/i18n/utils'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+const other: Lang = lang === 'es' ? 'en' : 'es'
+const links = [
+  { href: '#laminas', label: t('nav.projects') },
+  { href: '#sobre-mi', label: t('nav.about') },
+  { href: '#contacto', label: t('nav.contact') },
+]
+---
+
+<header class="border-b-[1.5px] border-tinta">
+  <div class="container-page flex h-20 items-center justify-between gap-6">
+    <a href={localizedPath(lang)} class="font-display text-2xl tracking-tight">
+      A. Echeverría
+    </a>
+    <nav aria-label="Principal" class="flex items-center gap-6 font-mono text-sm sm:gap-8">
+      <ul class="hidden items-center gap-8 md:flex">
+        {links.map((link) => (
+          <li>
+            <a href={link.href} class="underline-offset-4 hover:text-cobalto hover:underline">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a
+        href={localizedPath(other)}
+        hreflang={other}
+        lang={other}
+        class="flex h-11 items-center border-[1.5px] border-tinta px-3.5 transition-colors hover:bg-tinta hover:text-papel"
+        aria-label={other === 'en' ? 'View in English' : 'Ver en español'}
+      >
+        {other.toUpperCase()}
+      </a>
+    </nav>
+  </div>
+</header>

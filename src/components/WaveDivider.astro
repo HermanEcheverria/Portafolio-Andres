@@ -1,0 +1,20 @@
+---
+// Ondas de grabado que se dibujan al hacer scroll
+const offsets = [20, 38, 56, 74, 92]
+---
+
+<svg
+  viewBox="0 0 1440 120"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  class="block h-24 w-full sm:h-30"
+>
+  <g fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke">
+    {offsets.map((y) => (
+      <path
+        data-wave
+        d={`M0 ${y} C 180 ${y - 20}, 360 ${y + 20}, 540 ${y} S 900 ${y - 20}, 1080 ${y} S 1300 ${y + 20}, 1440 ${y - 2}`}
+      />
+    ))}
+  </g>
+</svg>

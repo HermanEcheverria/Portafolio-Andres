@@ -1,0 +1,64 @@
+---
+import { Font } from 'astro:assets'
+
+import SiteFooter from '@/components/SiteFooter.astro'
+import SiteHeader from '@/components/SiteHeader.astro'
+import { getLang, localizedPath, useTranslations } from '@/i18n/utils'
+import '@/styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const lang = getLang(Astro.currentLocale)
+const t = useTranslations(lang)
+const { title = t('meta.title'), description = t('meta.description') } = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const alternates = (['es', 'en'] as const).map((l) => ({
+  lang: l,
+  href: new URL(localizedPath(l, '/'), Astro.site).toString(),
+}))
+---
+
+<!doctype html>
+<html lang={lang === 'es' ? 'es-GT' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.lang} href={a.href} />
+    ))}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ece7dc" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_GT' : 'en_US'} />
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-young-serif" preload />
+    <Font cssVariable="--font-plex-sans" preload />
+    <Font cssVariable="--font-plex-mono" />
+  </head>
+  <body class="min-h-dvh">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-tinta focus:px-4 focus:py-2 focus:text-papel"
+    >
+      {t('nav.skip')}
+    </a>
+    <SiteHeader lang={lang} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} />
+    <script>
+      import { initMotion } from '@/scripts/motion'
+      initMotion()
+    </script>
+  </body>
+</html>

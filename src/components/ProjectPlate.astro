@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import type { Lang } from '@/i18n/ui'
+import { toRoman, useTranslations } from '@/i18n/utils'
+
+interface Props {
+  project: CollectionEntry<'projects'>
+  index: number
+  lang: Lang
+}
+
+const { project, index, lang } = Astro.props
+const t = useTranslations(lang)
+const { title, summary, stack, year } = project.data
+---
+
+<article
+  data-tilt
+  data-reveal-scroll
+  class="group relative flex flex-col border-[1.5px] border-tinta bg-papel-claro [transform-style:preserve-3d]"
+>
+  <div class="rayado flex h-48 items-center justify-center border-b-[1.5px] border-tinta">
+    <span class="border-[1.5px] border-tinta bg-papel-claro px-3.5 py-2 font-mono text-xs tracking-[0.2em] uppercase [transform:translateZ(30px)]">
+      {`${t('projects.plate')} ${toRoman(index + 1)}`}
+    </span>
+  </div>
+  <div class="flex flex-1 flex-col gap-3 p-6 [transform:translateZ(18px)]">
+    <p class="font-mono text-xs text-grafito">{year}</p>
+    <h3 class="font-display text-[27px] leading-tight">{title}</h3>
+    <p class="leading-relaxed text-tinta-suave">{summary}</p>
+    <p class="font-mono text-xs leading-relaxed text-cobalto">{stack.join(' · ')}</p>
+  </div>
+</article>

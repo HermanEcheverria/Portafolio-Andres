@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content'
+
+import Hero from '@/components/Hero.astro'
+import ProjectPlate from '@/components/ProjectPlate.astro'
+import WaveDivider from '@/components/WaveDivider.astro'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const t = useTranslations(lang)
+
+const projects = (
+  await getCollection(
+    'projects',
+    ({ id, data }) => id.startsWith(`${lang}/`) && (import.meta.env.DEV || !data.draft),
+  )
+).sort((a, b) => a.data.order - b.data.order)
+---
+
+<BaseLayout>
+  <Hero lang={lang} />
+  <WaveDivider />
+
+  <section id="laminas" class="container-page scroll-mt-8 py-14" aria-labelledby="laminas-titulo">
+    <div class="flex flex-wrap items-baseline justify-between gap-4">
+      <h2 id="laminas-titulo" data-reveal-scroll class="font-display text-5xl sm:text-6xl">
+        {t('projects.title')}
+      </h2>
+      <p data-reveal-scroll class="font-mono text-[13px]">
+        {t('projects.subtitle')}
+      </p>
+    </div>
+    <div class="mt-10 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project, index) => (
+        <ProjectPlate project={project} index={index} lang={lang} />
+      ))}
+    </div>
+  </section>
+
+  <section
+    id="sobre-mi"
+    class="container-page grid scroll-mt-8 gap-8 border-t-[1.5px] border-tinta py-20 md:grid-cols-[1fr_1.4fr]"
+  >
+    <h2 data-reveal-scroll class="font-display text-5xl">
+      {t('about.title')}
+    </h2>
+    <p data-reveal-scroll class="text-xl leading-relaxed">
+      {t('about.body')}
+    </p>
+  </section>
+
+  <section
+    id="contacto"
+    class="container-page scroll-mt-8 border-t-[1.5px] border-tinta py-20"
+    aria-labelledby="contacto-titulo"
+  >
+    <h2
+      id="contacto-titulo"
+      data-reveal-scroll
+      class="sombra-impresa font-display text-[clamp(3rem,7vw,6rem)] leading-none"
+    >
+      {t('contact.title')}
+    </h2>
+    <p data-reveal-scroll class="mt-6 max-w-2xl text-xl leading-relaxed">
+      {t('contact.body')}
+    </p>
+  </section>
+</BaseLayout>

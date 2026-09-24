@@ -1,0 +1,83 @@
+---
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+
+interface Props {
+  lang: Lang
+}
+
+const t = useTranslations(Astro.props.lang)
+---
+
+<section
+  class="container-page grid items-center gap-10 pt-12 pb-6 lg:grid-cols-[1fr_minmax(0,600px)] lg:pt-16"
+  aria-labelledby="hero-title"
+>
+  <div class="flex flex-col gap-7">
+    <p data-reveal class="font-mono text-[13px] tracking-[0.25em] uppercase">
+      {t('hero.eyebrow')}
+    </p>
+    <h1
+      id="hero-title"
+      data-split
+      class="sombra-impresa font-display text-[clamp(3.5rem,9vw,7.5rem)] leading-[0.95] tracking-[-0.03em]"
+    >
+      Andrés
+      <br />
+      Echeverría
+    </h1>
+    <p data-reveal class="max-w-xl text-xl leading-relaxed sm:text-[22px]">
+      {t('hero.lead')} <em class="font-display text-cobalto not-italic">{t('hero.accent')}</em>
+    </p>
+    <div data-reveal class="flex flex-wrap gap-3.5">
+      <a
+        href="#laminas"
+        class="inline-flex h-13 items-center bg-tinta px-6.5 font-semibold text-papel transition-colors hover:bg-cobalto"
+      >
+        {t('hero.cta.projects')}
+      </a>
+      <a
+        href="#cv"
+        class="inline-flex h-13 items-center border-[1.5px] border-tinta px-6.5 font-medium transition-colors hover:bg-tinta hover:text-papel"
+      >
+        {t('hero.cta.cv')}
+      </a>
+    </div>
+  </div>
+
+  <figure class="relative mx-auto aspect-square w-full max-w-[600px]">
+    <canvas
+      data-engraved-scene
+      role="img"
+      aria-label={t('hero.scene')}
+      class="block size-full"
+    ></canvas>
+    <figcaption class="absolute inset-x-0 bottom-1.5 text-center font-mono text-xs tracking-[0.2em] uppercase">
+      {t('hero.caption')}
+    </figcaption>
+  </figure>
+</section>
+
+<script>
+  import { mountEngravedScene } from '@/scripts/engraved-scene'
+  import { prefersReducedMotion } from '@/lib/motion'
+
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-engraved-scene]')
+  if (canvas) {
+    const styles = getComputedStyle(document.documentElement)
+    const color = (name: string) => styles.getPropertyValue(name).trim()
+    const unmount = mountEngravedScene(canvas, {
+      still: prefersReducedMotion(),
+      colors: {
+        paper: color('--color-papel'),
+        ink: color('--color-tinta'),
+        accent: color('--color-cobalto'),
+      },
+    })
+    // Sin WebGL 2: el pie de figura sobra y se deja el espacio con rayado
+    if (!unmount) {
+      canvas.classList.add('rayado', 'rounded-full')
+      canvas.nextElementSibling?.remove()
+    }
+  }
+</script>

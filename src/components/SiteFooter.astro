@@ -1,0 +1,33 @@
+---
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+
+interface Props {
+  lang: Lang
+}
+
+const t = useTranslations(Astro.props.lang)
+const year = new Date().getFullYear()
+const links = [
+  { href: 'https://github.com/HermanEcheverria', label: 'GitHub' },
+  { href: '#linkedin', label: 'LinkedIn' },
+  { href: '#correo', label: 'Correo' },
+]
+---
+
+<footer class="mt-24 border-t-[1.5px] border-tinta">
+  <div class="container-page flex flex-col justify-between gap-4 py-8 font-mono text-[13px] sm:flex-row">
+    <p>
+      © {year} Andrés Echeverría — {t('footer.printed')}
+    </p>
+    <ul class="flex gap-6">
+      {links.map((link) => (
+        <li>
+          <a href={link.href} class="hover:text-cobalto hover:underline">
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</footer>
