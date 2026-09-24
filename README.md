@@ -33,6 +33,7 @@ pnpm check        # tipos y diagnósticos de Astro
 pnpm build        # sitio estático en dist/
 pnpm format       # Prettier
 pnpm cv           # después de build: genera public/cv.pdf y public/cv-en.pdf
+node scripts/engrave-portrait.mjs  # rehace el retrato en grabado desde src/assets/retrato.png
 ```
 
 El CV (`/cv` y `/en/cv`) se arma con los mismos datos del portafolio (`src/data/`), así que

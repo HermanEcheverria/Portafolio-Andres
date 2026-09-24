@@ -4,11 +4,12 @@
  * portafolio (perfil, experiencia, habilidades y proyectos) para que nunca se
  * desincronicen. Texto real y sin tablas: lo pueden leer los sistemas ATS.
  */
-import { Font } from 'astro:assets'
+import { Font, Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
 import { certificationsByIssuer, inProgress } from '@/data/certifications'
 import { experience } from '@/data/experience'
+import retrato from '@/assets/retrato.png'
 import { localize } from '@/data/localized'
 import { profile } from '@/data/profile'
 import { skillGroups } from '@/data/skills'
@@ -26,7 +27,10 @@ const projects = (
   await getCollection('projects', ({ id, data }) => id.startsWith(`${lang}/`) && !data.draft)
 ).sort((a, b) => a.data.order - b.data.order)
 const pdf = lang === 'es' ? '/cv.pdf' : '/cv-en.pdf'
-const displayUrl = (url: string) => url.replace(/^https?:\/\//, '')
+const displayUrl = (url: string) =>
+  decodeURIComponent(url)
+    .replace(/^https?:\/\/(www\.)?/, '')
+    .replace(/\/$/, '')
 const contact = [
   { label: profile.email, href: `mailto:${profile.email}` },
   { label: profile.phone, href: `tel:${profile.phone.replace(/[^+\d]/g, '')}` },
@@ -62,6 +66,7 @@ const contact = [
 
     <article class="cv-page">
       <header class="cv-header">
+        <Image src={retrato} alt="" width={200} class="cv-photo" />
         <h1>{profile.name}</h1>
         <p class="cv-title">{localize(profile.title, lang)}</p>
         <ul class="cv-contact">
@@ -197,7 +202,7 @@ const contact = [
     max-width: 8.5in;
     min-height: 11in;
     margin: 0 auto;
-    padding: 0.42in 0.6in;
+    padding: 0.42in 0.6in 0.3in;
     background: #fff;
     color: var(--color-tinta);
     font-family: var(--font-sans);
@@ -209,6 +214,19 @@ const contact = [
     padding-bottom: 12pt;
     margin-bottom: 4pt;
     border-bottom: 3px double var(--color-tinta);
+  }
+  .cv-header {
+    position: relative;
+    padding-right: 1.05in;
+  }
+  .cv-photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0.85in;
+    height: 1.05in;
+    object-fit: cover;
+    border: 1px solid var(--color-tinta);
   }
   .cv-header h1 {
     margin: 0;

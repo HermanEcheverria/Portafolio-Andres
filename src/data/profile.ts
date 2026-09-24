@@ -19,8 +19,7 @@ export const profile = {
   website: 'https://andresecheverria.com',
   links: {
     github: 'https://github.com/HermanEcheverria',
-    /** [PENDIENTE] enlace de LinkedIn */
-    linkedin: '',
+    linkedin: 'https://www.linkedin.com/in/herman-andr%C3%A9s-echeverria-rojas-501180256/',
   },
   summary: {
     es: 'Estudiante de último año de Ingeniería en Sistemas y Ciencias de la Computación, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y limpieza y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y con formación en ciberseguridad (Cisco). Trabajo de forma ordenada y limpia, y busco constantemente nuevos retos.',
