@@ -32,7 +32,9 @@ pnpm dev          # http://localhost:4321
 pnpm check        # tipos y diagnósticos de Astro
 pnpm build        # sitio estático en dist/
 pnpm format       # Prettier
-pnpm cv           # después de build: genera public/cv.pdf y public/cv-en.pdf
+pnpm assets       # después de build: genera los PDF del CV y las imágenes para compartir
+pnpm cv           # solo el CV (public/cv.pdf y public/cv-en.pdf)
+pnpm og           # solo las imágenes para compartir (public/og.png y og-en.png)
 node scripts/engrave-portrait.mjs  # rehace el retrato en grabado desde src/assets/retrato.png
 ```
 

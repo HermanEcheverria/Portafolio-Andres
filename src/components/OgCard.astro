@@ -1,0 +1,57 @@
+---
+/**
+ * Diseño de la imagen para compartir (1200×630). No es una página para personas:
+ * scripts/generate-og.mjs la fotografía y guarda public/og.png.
+ */
+import { Font } from 'astro:assets'
+
+import RetratoGrabado from '@/assets/retrato-grabado.svg'
+import { localize } from '@/data/localized'
+import { profile } from '@/data/profile'
+import type { Lang } from '@/i18n/ui'
+import '@/styles/global.css'
+
+interface Props {
+  lang: Lang
+}
+
+const { lang } = Astro.props
+const tagline = {
+  es: 'Portafolio · Ingeniería en Sistemas',
+  en: 'Portfolio · Systems Engineering',
+}
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>OG</title>
+    <Font cssVariable="--font-young-serif" preload />
+    <Font cssVariable="--font-plex-sans" preload />
+    <Font cssVariable="--font-plex-mono" preload />
+  </head>
+  <body class="m-0">
+    <div class="relative flex h-[630px] w-[1200px] overflow-hidden bg-papel text-tinta">
+      <div class="relative h-full w-[420px] shrink-0 border-r-[1.5px] border-tinta bg-papel-claro">
+        <RetratoGrabado class="absolute inset-x-0 bottom-0 h-[560px] w-full text-tinta" />
+      </div>
+      <div class="flex flex-1 flex-col justify-between p-16">
+        <p class="font-mono text-base tracking-[0.3em] uppercase">{localize(tagline, lang)}</p>
+        <div class="flex flex-col gap-5">
+          <h1 class="sombra-impresa font-display text-[104px] leading-[0.95] tracking-[-0.02em]">
+            Andrés
+            <br />
+            Echeverría
+          </h1>
+          <p class="text-3xl text-cobalto">{localize(profile.title, lang)}</p>
+        </div>
+        <div class="flex items-end justify-between">
+          <p class="font-mono text-2xl">andresecheverria.com</p>
+          <div class="rayado h-10 w-40 border-[1.5px] border-tinta"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

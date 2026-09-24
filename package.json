@@ -13,7 +13,9 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "cv": "node scripts/generate-cv.mjs"
+    "cv": "node scripts/generate-cv.mjs",
+    "og": "node scripts/generate-og.mjs",
+    "assets": "pnpm run cv && pnpm run og"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",

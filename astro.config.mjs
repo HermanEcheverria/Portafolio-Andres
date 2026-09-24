@@ -45,6 +45,8 @@ export default defineConfig({
     react(),
     sitemap({
       i18n: { defaultLocale: 'es', locales: { es: 'es-GT', en: 'en-US' } },
+      // El CV y la tarjeta para compartir no son páginas para buscadores
+      filter: (page) => !/\/(cv|og-card)\/?$/.test(page),
     }),
   ],
   vite: {
