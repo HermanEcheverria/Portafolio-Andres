@@ -1,0 +1,14 @@
+// Despliegue en Cloudflare Workers como sitio estático (sin código de servidor).
+// Cloudflare compila con `pnpm run build` y publica con `npx wrangler deploy`.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portafolio-andres",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Rutas inexistentes muestran la 404 de "Has muerto"
+    "not_found_handling": "404-page",
+    // /proyectos/x sirve dist/proyectos/x/index.html sin redirigir a una barra final
+    "html_handling": "drop-trailing-slash",
+  },
+}
