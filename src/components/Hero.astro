@@ -45,14 +45,14 @@ const t = useTranslations(Astro.props.lang)
     </div>
   </div>
 
-  <figure class="relative mx-auto aspect-square w-full max-w-[600px]">
+  <figure class="mx-auto flex w-full max-w-[600px] flex-col items-center gap-3">
     <canvas
       data-engraved-scene
       role="img"
       aria-label={t('hero.scene')}
-      class="block size-full"
+      class="block aspect-square w-full"
     ></canvas>
-    <figcaption class="absolute inset-x-0 bottom-1.5 text-center font-mono text-xs tracking-[0.2em] uppercase">
+    <figcaption class="text-center font-mono text-xs tracking-[0.2em] uppercase">
       {t('hero.caption')}
     </figcaption>
   </figure>

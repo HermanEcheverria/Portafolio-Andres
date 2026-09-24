@@ -59,8 +59,10 @@ float softShadow(vec3 p, vec3 n, vec3 l) {
 
 void main() {
   vec2 uv = (gl_FragCoord.xy * 2. - uRes) / uRes.y;
-  vec3 ro = vec3(0., .12, 3.);
-  vec3 rd = normalize(vec3(uv * .68, -1.));
+  // Cámara lejana con lente cerrado: toda la órbita cabe siempre en el cuadro
+  // (máximo ~0.83 del borde, calculado para cualquier momento de la rotación)
+  vec3 ro = vec3(0., .12, 5.2);
+  vec3 rd = normalize(vec3(uv * .45, -1.));
 
   float t = 0.;
   float nearest = 1e3;
