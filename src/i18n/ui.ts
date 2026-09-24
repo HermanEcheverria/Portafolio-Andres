@@ -58,6 +58,7 @@ export const ui = {
     'cv.projects': 'Proyectos',
     'cv.skills': 'Habilidades',
     'cv.languages': 'Idiomas',
+    'cv.moreCerts': 'Y {n} certificaciones más en',
   },
   en: {
     'meta.title': 'Andrés Echeverría · Systems Engineering',
@@ -110,6 +111,7 @@ export const ui = {
     'cv.projects': 'Projects',
     'cv.skills': 'Skills',
     'cv.languages': 'Languages',
+    'cv.moreCerts': 'Plus {n} more certifications at',
   },
 } as const satisfies Record<Lang, Record<string, string>>
 

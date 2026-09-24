@@ -7,7 +7,12 @@
 import { Font, Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
-import { certificationsByIssuer, inProgress } from '@/data/certifications'
+import {
+  certifications,
+  certificationsByIssuer,
+  inProgress,
+  issuerShortName,
+} from '@/data/certifications'
 import { experience } from '@/data/experience'
 import retrato from '@/assets/retrato.png'
 import { localize } from '@/data/localized'
@@ -26,6 +31,7 @@ const t = useTranslations(lang)
 const projects = (
   await getCollection('projects', ({ id, data }) => id.startsWith(`${lang}/`) && !data.draft)
 ).sort((a, b) => a.data.order - b.data.order)
+const hiddenCerts = certifications.filter((c) => c.inCv === false).length
 const pdf = lang === 'es' ? '/cv.pdf' : '/cv-en.pdf'
 const displayUrl = (url: string) =>
   decodeURIComponent(url)
@@ -65,8 +71,12 @@ const contact = [
     </nav>
 
     <article class="cv-page">
-      <header class="cv-header">
-        <Image src={retrato} alt="" width={200} class="cv-photo" />
+      <header class:list={['cv-header', { 'con-foto': lang === 'es' }]}>
+        {
+          // Foto solo en español (Guatemala); en inglés se omite, como piden
+          // los reclutadores de EE. UU. y de trabajo remoto
+          lang === 'es' && <Image src={retrato} alt="" width={200} class="cv-photo" />
+        }
         <h1>{profile.name}</h1>
         <p class="cv-title">{localize(profile.title, lang)}</p>
         <ul class="cv-contact">
@@ -133,7 +143,7 @@ const contact = [
         <h2>{t('experience.certifications')}</h2>
         {certificationsByIssuer({ forCv: true }).map((group) => (
           <p class="cv-cert">
-            <strong>{group.issuer}:</strong>{' '}
+            <strong>{issuerShortName[group.issuer] ?? group.issuer}:</strong>{' '}
             {group.items
               .map(
                 (cert) =>
@@ -142,6 +152,12 @@ const contact = [
               .join(' · ')}
           </p>
         ))}
+        <p class="cv-cert">
+          {t('cv.moreCerts').replace('{n}', String(hiddenCerts))}{' '}
+          <a href={`${profile.website}${lang === 'es' ? '' : '/en'}#experiencia`}>
+            {displayUrl(profile.website)}
+          </a>
+        </p>
         <p class="cv-cert">
           <strong>{t('experience.inProgress')}:</strong>{' '}
           {inProgress.map((course) => `${course.name} (${course.provider})`).join(' · ')}
@@ -206,17 +222,19 @@ const contact = [
     background: #fff;
     color: var(--color-tinta);
     font-family: var(--font-sans);
-    font-size: 9.5pt;
+    font-size: 10pt;
     line-height: 1.4;
     box-shadow: 8px 10px 0 var(--color-tinta);
   }
   .cv-header {
-    padding-bottom: 12pt;
+    padding-bottom: 10pt;
     margin-bottom: 4pt;
     border-bottom: 3px double var(--color-tinta);
   }
   .cv-header {
     position: relative;
+  }
+  .cv-header.con-foto {
     padding-right: 1.05in;
   }
   .cv-photo {
@@ -255,7 +273,7 @@ const contact = [
     color: var(--color-cobalto);
   }
   section {
-    margin-top: 8pt;
+    margin-top: 7pt;
     break-inside: avoid-page;
   }
   h2 {
@@ -272,7 +290,7 @@ const contact = [
     margin: 0;
   }
   .cv-entry + .cv-entry {
-    margin-top: 6pt;
+    margin-top: 5pt;
   }
   .cv-entry {
     break-inside: avoid;

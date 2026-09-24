@@ -39,8 +39,8 @@ export const experience: Experience[] = [
     role: { es: 'Prácticas profesionales', en: 'Internship' },
     period: { es: '3 — 28 jun 2024', en: 'Jun 3 — 28, 2024' },
     description: {
-      es: 'Empresa de venta de fertilizantes e insumos agrícolas. En equipo implementamos su CRM en Odoo y depuramos los datos de su base de datos; lo que estaba en Excel lo migramos con SQL y Python.',
-      en: 'A company selling fertilizers and farming supplies. As a team we implemented their CRM in Odoo and cleaned their database; data kept in Excel was migrated with SQL and Python.',
+      es: 'En equipo implementamos su CRM en Odoo y depuramos su base de datos, migrando desde Excel con SQL y Python.',
+      en: 'As a team we implemented their Odoo CRM and cleaned their database, migrating from Excel with SQL and Python.',
     },
     tags: ['Odoo', 'CRM', 'SQL', 'Python', { es: 'Migración de datos', en: 'Data migration' }],
   },

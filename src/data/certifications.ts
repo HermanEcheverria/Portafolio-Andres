@@ -7,7 +7,10 @@ export type Certification = {
   /** Fecha de emisión, AAAA-MM-DD. */
   date: string
   note?: Localizable
-  /** false: se muestra en el portafolio pero no en el CV (para que quepa en una página). */
+  /**
+   * false: se muestra en el portafolio pero no en el CV. El CV destaca 5 o 6 y
+   * remite al portafolio para el resto (así cabe en una página).
+   */
   inCv?: boolean
 }
 
@@ -40,13 +43,20 @@ export const certifications: Certification[] = [
     name: 'Create Digital Content, Communicate, and Collaborate Online',
     issuer: 'Cisco Networking Academy',
     date: '2025-03-06',
+    inCv: false,
   },
   {
     name: 'Engaging Stakeholders for Success',
     issuer: 'Cisco Networking Academy',
     date: '2025-01-27',
+    inCv: false,
   },
-  { name: 'Creating Compelling Reports', issuer: 'Cisco Networking Academy', date: '2025-01-24' },
+  {
+    name: 'Creating Compelling Reports',
+    issuer: 'Cisco Networking Academy',
+    date: '2025-01-24',
+    inCv: false,
+  },
   {
     name: 'Networking Academy Learn-A-Thon 2024',
     issuer: 'Cisco Networking Academy',
@@ -59,7 +69,12 @@ export const certifications: Certification[] = [
     issuer: 'Cisco Networking Academy',
     date: '2024-06-11',
   },
-  { name: 'Project Management Fundamentals', issuer: 'IBM SkillsBuild', date: '2026-08-12' },
+  {
+    name: 'Project Management Fundamentals',
+    issuer: 'IBM SkillsBuild',
+    date: '2026-08-12',
+    inCv: false,
+  },
   {
     name: 'Project Management Fundamentals',
     issuer: 'IBM SkillsBuild',
@@ -70,13 +85,14 @@ export const certifications: Certification[] = [
     name: 'ELASH II',
     issuer: 'Universidad del Valle de Guatemala · CIE',
     date: '2026-06-04',
+    inCv: false,
     note: { es: '166/200 · inglés B2 (MCER)', en: '166/200 · English B2 (CEFR)' },
   },
   {
     name: 'Analítica de Datos',
     issuer: 'UNIS Business School',
     date: '2022-06-29',
-    note: { es: 'diploma', en: 'diploma course' },
+    note: { es: 'diploma', en: 'Data Analytics diploma course' },
   },
 ]
 
@@ -87,13 +103,20 @@ export const inProgress = [
 ]
 
 /** Certificaciones agrupadas por institución, de la más reciente a la más antigua. */
+/** Nombre corto para el CV, donde el espacio cuenta. */
+export const issuerShortName: Partial<Record<(typeof issuers)[number], string>> = {
+  'Project Management Institute': 'PMI',
+}
+
 export function certificationsByIssuer({ forCv = false } = {}) {
-  return issuers.map((issuer) => ({
-    issuer,
-    items: certifications
-      .filter((c) => c.issuer === issuer && (!forCv || c.inCv !== false))
-      .sort((a, b) => b.date.localeCompare(a.date)),
-  }))
+  return issuers
+    .map((issuer) => ({
+      issuer,
+      items: certifications
+        .filter((c) => c.issuer === issuer && (!forCv || c.inCv !== false))
+        .sort((a, b) => b.date.localeCompare(a.date)),
+    }))
+    .filter((group) => group.items.length > 0)
 }
 
 export function formatMonthYear(date: string, lang: Lang): string {

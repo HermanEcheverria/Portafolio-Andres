@@ -4,7 +4,7 @@ summary: Catalog, cart and orders confirmed over WhatsApp, with an admin panel t
 year: 2026
 role: End-to-end design and development
 stack: [Next.js 16, Payload CMS, PostgreSQL, Tailwind CSS, Playwright]
-order: 1
+order: 2
 ---
 
 ## The problem

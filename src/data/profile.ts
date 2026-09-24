@@ -22,8 +22,8 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/herman-andr%C3%A9s-echeverria-rojas-501180256/',
   },
   summary: {
-    es: 'Estudiante de último año de Ingeniería en Sistemas y Ciencias de la Computación, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y limpieza y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y con formación en ciberseguridad (Cisco). Trabajo de forma ordenada y limpia, y busco constantemente nuevos retos.',
-    en: 'Final-year Systems and Computer Science Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data cleaning and migration with SQL and Python. Certified in project management (PMI, IBM) with cybersecurity training (Cisco). I work in an orderly, clean way and I am always looking for new challenges.',
+    es: 'Estudiante de último año de Ingeniería en Sistemas, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y con formación en ciberseguridad (Cisco).',
+    en: 'Final-year Systems Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data migration with SQL and Python. Certified in project management (PMI, IBM) with cybersecurity training (Cisco).',
   } satisfies Localizable,
   education: [
     {
@@ -34,7 +34,7 @@ export const profile = {
       } satisfies Localizable,
       period: {
         es: '2021 — 2026 · último semestre',
-        en: '2021 — 2026 · final semester',
+        en: '2021 — Expected 2026',
       } satisfies Localizable,
     },
   ],
@@ -42,7 +42,7 @@ export const profile = {
     { name: { es: 'Español', en: 'Spanish' }, level: { es: 'nativo', en: 'native' } },
     {
       name: { es: 'Inglés', en: 'English' },
-      level: { es: 'B2 (MCER), certificado', en: 'B2 (CEFR), certified' },
+      level: { es: 'B2 (MCER), certificado ELASH II', en: 'B2 (CEFR), ELASH II certified' },
     },
   ],
 }
