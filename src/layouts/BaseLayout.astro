@@ -1,8 +1,10 @@
 ---
 import { Font } from 'astro:assets'
 
+import CommandPalette from '@/components/CommandPalette.astro'
 import SiteFooter from '@/components/SiteFooter.astro'
 import SiteHeader from '@/components/SiteHeader.astro'
+import Terminal from '@/components/Terminal.astro'
 import { getLang, localizedPath, useTranslations } from '@/i18n/utils'
 import '@/styles/global.css'
 
@@ -82,6 +84,8 @@ const alternates = (translated ? (['es', 'en'] as const) : [lang]).map((l) => ({
       <slot />
     </main>
     <SiteFooter lang={lang} />
+    <CommandPalette lang={lang} path={translated ? path : '/'} />
+    <Terminal lang={lang} path={translated ? path : '/'} />
     <script>
       import { initMotion } from '@/scripts/motion'
       initMotion()

@@ -1,0 +1,57 @@
+---
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+import { buildTerminalData } from '@/lib/commands'
+
+interface Props {
+  lang: Lang
+  path: string
+}
+
+const { lang, path } = Astro.props
+const t = useTranslations(lang)
+const data = await buildTerminalData(lang, path)
+---
+
+<dialog
+  id="terminal"
+  aria-label={t('terminal.title')}
+  data-lenis-prevent
+  class="m-auto w-[min(52rem,calc(100vw-2rem))] border-[1.5px] border-tinta bg-tinta p-0 font-mono text-sm text-papel shadow-[10px_12px_0_var(--color-cobalto)] backdrop:bg-tinta/50"
+>
+  <div class="flex items-center justify-between border-b border-papel/20 px-4 py-2 text-xs">
+    <span>andres@portafolio: ~</span>
+    <span class="text-papel/60">{t('terminal.hint')}</span>
+  </div>
+  <div
+    data-output
+    role="log"
+    aria-live="polite"
+    class="h-[min(24rem,60vh)] overflow-y-auto px-4 py-3 leading-relaxed"
+  ></div>
+  <label class="flex items-center gap-2 border-t border-papel/20 px-4 py-3">
+    <span aria-hidden="true" class="text-[#8fa3ff]">
+      ~$
+    </span>
+    <span class="sr-only">{t('terminal.input')}</span>
+    <input
+      type="text"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      class="flex-1 bg-transparent text-papel caret-[#8fa3ff] outline-none"
+    />
+  </label>
+</dialog>
+
+<script
+  is:inline
+  id="terminal-datos"
+  type="application/json"
+  set:html={JSON.stringify(data).replace(/</g, '\\u003c')}
+></script>
+
+<script>
+  import { initTerminal } from '@/scripts/terminal'
+  initTerminal()
+</script>

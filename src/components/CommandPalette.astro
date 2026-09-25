@@ -1,0 +1,63 @@
+---
+import { profile } from '@/data/profile'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+import { buildCommands } from '@/lib/commands'
+
+interface Props {
+  lang: Lang
+  path: string
+}
+
+const { lang, path } = Astro.props
+const t = useTranslations(lang)
+const commands = await buildCommands(lang, path)
+---
+
+<dialog
+  id="paleta"
+  aria-label={t('cmd.title')}
+  data-lenis-prevent
+  class="paleta m-auto mt-[12vh] w-[min(40rem,calc(100vw-2rem))] border-[1.5px] border-tinta bg-papel-claro p-0 text-tinta shadow-[10px_12px_0_var(--color-tinta)] backdrop:bg-tinta/40"
+>
+  <div class="flex items-center gap-3 border-b-[1.5px] border-tinta px-4">
+    <span aria-hidden="true" class="font-mono text-cobalto">
+      ⌕
+    </span>
+    <input
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="paleta-lista"
+      aria-autocomplete="list"
+      aria-label={t('cmd.placeholder')}
+      placeholder={t('cmd.placeholder')}
+      autocomplete="off"
+      spellcheck="false"
+      class="h-14 flex-1 bg-transparent font-mono text-base outline-none placeholder:text-grafito"
+    />
+    <kbd class="border-[1.5px] border-tinta px-1.5 py-0.5 font-mono text-[11px]">Esc</kbd>
+  </div>
+  <ul id="paleta-lista" role="listbox" class="max-h-[50vh] overflow-y-auto py-2"></ul>
+  <p
+    data-status
+    role="status"
+    hidden
+    class="border-t-[1.5px] border-tinta px-4 py-2 font-mono text-xs text-grafito"
+  ></p>
+</dialog>
+
+<script
+  is:inline
+  id="paleta-datos"
+  type="application/json"
+  data-email={profile.email}
+  data-empty={t('cmd.empty')}
+  data-copied={t('cmd.copied')}
+  set:html={JSON.stringify(commands).replace(/</g, '\\u003c')}
+></script>
+
+<script>
+  import { initCommandPalette } from '@/scripts/command-palette'
+  initCommandPalette()
+</script>

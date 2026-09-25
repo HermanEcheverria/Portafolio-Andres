@@ -36,6 +36,16 @@ const links = [
           </li>
         ))}
       </ul>
+      <button
+        type="button"
+        data-open-palette
+        aria-label={t('cmd.open')}
+        aria-keyshortcuts="Control+K Meta+K"
+        class="flex h-11 items-center gap-2 border-[1.5px] border-tinta px-3 transition-colors hover:bg-tinta hover:text-papel"
+      >
+        <span aria-hidden="true">⌕</span>
+        <kbd class="hidden font-mono text-xs sm:inline">Ctrl K</kbd>
+      </button>
       <a
         href={localizedPath(other, path)}
         hreflang={other}
