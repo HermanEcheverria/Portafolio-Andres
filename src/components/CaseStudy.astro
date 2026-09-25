@@ -1,6 +1,9 @@
 ---
 import { render } from 'astro:content'
 
+import ArchitectureDiagram from '@/components/ArchitectureDiagram.astro'
+import { diagrams } from '@/data/diagrams'
+
 import type { Lang } from '@/i18n/ui'
 import { localizedPath, toRoman, useTranslations } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
@@ -20,6 +23,7 @@ const { Content } = await render(project)
 const { title, summary, year, role, stack } = project.data
 const previous = projects[index - 1]
 const next = projects[index + 1]
+const diagram = diagrams[slug]
 const plate = `${t('projects.plate')} ${toRoman(index + 1)}`
 // Solo se enlaza la otra versión si existe y está publicada en ese idioma
 const otherLang: Lang = lang === 'es' ? 'en' : 'es'
@@ -54,6 +58,8 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
         {summary}
       </p>
     </header>
+
+    {diagram && <ArchitectureDiagram diagram={diagram} slug={slug} title={title} lang={lang} />}
 
     <div class="grid gap-12 py-14 lg:grid-cols-[18rem_1fr] lg:gap-20">
       <aside class="lg:sticky lg:top-10 lg:self-start">

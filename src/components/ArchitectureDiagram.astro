@@ -1,0 +1,263 @@
+---
+/**
+ * Diagrama de arquitectura en grabado, con recorridos que se pueden seguir.
+ * Sin JavaScript se ve completo y estático; src/scripts/diagram.ts lo anima.
+ */
+import type { Diagram, DiagramNode } from '@/data/diagrams'
+import { localize } from '@/data/localized'
+import type { Lang } from '@/i18n/ui'
+import { useTranslations } from '@/i18n/utils'
+
+interface Props {
+  diagram: Diagram
+  slug: string
+  title: string
+  lang: Lang
+}
+
+const { diagram, slug, title, lang } = Astro.props
+const t = useTranslations(lang)
+const patternId = `rayado-diagrama-${slug}`
+const headingId = `diagrama-${slug}`
+const RY = 14 // radio vertical de las tapas del cilindro
+
+function cylinder({ x, y, w, h }: DiagramNode, dx = 0, dy = 0): string {
+  const [l, r, top, bottom] = [x + dx, x + w + dx, y + RY + dy, y + h - RY + dy]
+  return `M${l} ${top} A${w / 2} ${RY} 0 0 1 ${r} ${top} V${bottom} A${w / 2} ${RY} 0 0 1 ${l} ${bottom} Z`
+}
+
+/** Centro vertical del texto; en el cilindro se baja para no chocar con la tapa. */
+function textY(node: DiagramNode): number {
+  return node.y + node.h / 2 + (node.kind === 'database' ? RY / 2 : 0)
+}
+
+const description = diagram.nodes
+  .map((node) => `${localize(node.label, lang)} (${localize(node.detail, lang)})`)
+  .join(', ')
+---
+
+<section class="border-b-[1.5px] border-tinta py-14" aria-labelledby={headingId}>
+  <figure data-diagram class="flex flex-col gap-6">
+    <div class="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+      <div class="flex flex-col gap-2">
+        <p class="font-mono text-xs tracking-[0.2em] text-grafito uppercase">Fig. 1</p>
+        <h2 id={headingId} class="font-display text-4xl sm:text-5xl">
+          {t('case.diagram')}
+        </h2>
+      </div>
+      <div
+        role="group"
+        aria-label={t('case.diagram.flows')}
+        class="flex flex-wrap gap-2 font-mono text-sm"
+      >
+        {diagram.flows.map((flow, i) => (
+          <button
+            type="button"
+            data-flow={i}
+            data-flow-edges={flow.edges.join(',')}
+            data-description={localize(flow.description, lang)}
+            aria-pressed="false"
+            class="cursor-pointer border-[1.5px] border-tinta px-3.5 py-2 transition-colors hover:bg-tinta hover:text-papel aria-pressed:bg-cobalto aria-pressed:text-papel aria-pressed:border-cobalto"
+          >
+            {localize(flow.label, lang)}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="relative border-[1.5px] border-tinta bg-papel-claro">
+      <div class="overflow-x-auto overscroll-x-contain" tabindex="0" aria-labelledby={headingId}>
+        <svg
+          viewBox={`0 0 ${diagram.width} ${diagram.height}`}
+          role="img"
+          aria-labelledby={`${headingId}-svg-title ${headingId}-svg-desc`}
+          class="diagrama block h-auto w-full min-w-[880px] p-4 sm:p-6"
+        >
+          <title id={`${headingId}-svg-title`}>{`${t('case.diagram')}: ${title}`}</title>
+          <desc id={`${headingId}-svg-desc`}>{description}</desc>
+          <defs>
+            <pattern
+              id={patternId}
+              width="5"
+              height="5"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <rect width="5" height="1.2" fill="var(--color-tinta)"></rect>
+            </pattern>
+            <marker
+              id={`${patternId}-flecha`}
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="7"
+              markerHeight="7"
+              orient="auto-start-reverse"
+            >
+              <path d="M0 0 L10 5 L0 10 Z" fill="context-stroke"></path>
+            </marker>
+          </defs>
+
+          <g data-frame>
+            <rect
+              x={diagram.frame.x}
+              y={diagram.frame.y}
+              width={diagram.frame.w}
+              height={diagram.frame.h}
+              fill="none"
+              stroke="var(--color-grafito)"
+              stroke-width="1.2"
+              stroke-dasharray="6 5"
+            ></rect>
+            <text
+              x={diagram.frame.x + 16}
+              y={diagram.frame.y + 22}
+              class="font-mono text-[13px] tracking-[0.12em] uppercase"
+              fill="var(--color-grafito)"
+            >
+              {localize(diagram.frame.label, lang)}
+            </text>
+          </g>
+
+          {diagram.edges.map((edge) => (
+            <g data-edge={edge.id} data-from={edge.from} data-to={edge.to} class="diagrama-parte">
+              <path
+                d={edge.d}
+                fill="none"
+                stroke="var(--color-tinta)"
+                stroke-width="1.5"
+                marker-end={`url(#${patternId}-flecha)`}
+                class="diagrama-linea"
+              />
+              <text
+                x={edge.lx}
+                y={edge.ly}
+                text-anchor="middle"
+                class="diagrama-etiqueta font-mono text-[13px]"
+              >
+                {localize(edge.label, lang)}
+              </text>
+            </g>
+          ))}
+
+          {diagram.nodes.map((node) => (
+            <g data-node={node.id} class="diagrama-parte">
+              {node.kind === 'database' ? (
+                <>
+                  <path d={cylinder(node, 8, 8)} fill={`url(#${patternId})`} />
+                  <path
+                    d={cylinder(node)}
+                    fill="var(--color-papel)"
+                    stroke="var(--color-tinta)"
+                    stroke-width="1.5"
+                  />
+                  <ellipse
+                    cx={node.x + node.w / 2}
+                    cy={node.y + RY}
+                    rx={node.w / 2}
+                    ry={RY}
+                    fill="none"
+                    stroke="var(--color-tinta)"
+                    stroke-width="1.5"
+                  />
+                </>
+              ) : (
+                <>
+                  <rect
+                    x={node.x + 8}
+                    y={node.y + 8}
+                    width={node.w}
+                    height={node.h}
+                    rx={node.kind === 'actor' ? node.h / 2 : 0}
+                    fill={`url(#${patternId})`}
+                  />
+                  <rect
+                    x={node.x}
+                    y={node.y}
+                    width={node.w}
+                    height={node.h}
+                    rx={node.kind === 'actor' ? node.h / 2 : 0}
+                    fill="var(--color-papel)"
+                    stroke="var(--color-tinta)"
+                    stroke-width="1.5"
+                    class="diagrama-caja"
+                  />
+                </>
+              )}
+              <text
+                x={node.x + node.w / 2}
+                y={textY(node) - 4}
+                text-anchor="middle"
+                class="font-display text-[22px]"
+                fill="var(--color-tinta)"
+              >
+                {localize(node.label, lang)}
+              </text>
+              <text
+                x={node.x + node.w / 2}
+                y={textY(node) + 20}
+                text-anchor="middle"
+                class="font-mono text-[13px]"
+                fill="var(--color-grafito)"
+              >
+                {localize(node.detail, lang)}
+              </text>
+            </g>
+          ))}
+
+          <circle data-packet r="7" cx="0" cy="0" fill="var(--color-cobalto)" opacity="0"></circle>
+        </svg>
+      </div>
+      <p class="border-t-[1.5px] border-tinta px-4 py-2 font-mono text-xs text-grafito sm:hidden">
+        {t('case.diagram.swipe')}
+      </p>
+    </div>
+
+    <figcaption
+      data-flow-caption
+      data-hint={t('case.diagram.hint')}
+      aria-live="polite"
+      class="max-w-3xl min-h-[5.5rem] text-lg leading-relaxed text-tinta-suave"
+    >
+      {t('case.diagram.hint')}
+    </figcaption>
+  </figure>
+</section>
+
+<script>
+  import { initDiagrams } from '@/scripts/diagram'
+
+  initDiagrams()
+</script>
+
+<style>
+  /* Solo tras la intro: antes, la transición pelearía con la opacidad que anima GSAP */
+  .is-ready .diagrama-parte {
+    transition: opacity 0.4s var(--ease-grabado);
+  }
+  .diagrama-linea {
+    transition: stroke 0.4s var(--ease-grabado);
+  }
+  .diagrama-etiqueta {
+    fill: var(--color-tinta-suave);
+    /* Halo de papel para que la etiqueta se lea sobre las líneas */
+    paint-order: stroke;
+    stroke: var(--color-papel-claro);
+    stroke-width: 6px;
+    stroke-linejoin: round;
+  }
+  /* Con un recorrido activo, lo demás se aparta y la ruta se entinta de cobalto */
+  [data-diagram][data-active] .diagrama-parte:not(.is-on) {
+    opacity: 0.2;
+  }
+  [data-diagram] .is-on .diagrama-linea {
+    stroke: var(--color-cobalto);
+    stroke-width: 2.2;
+  }
+  [data-diagram] .is-on .diagrama-etiqueta {
+    fill: var(--color-cobalto);
+  }
+  [data-diagram] .is-on .diagrama-caja {
+    stroke-width: 2.2;
+  }
+</style>
