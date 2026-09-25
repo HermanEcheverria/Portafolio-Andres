@@ -23,4 +23,4 @@ their own order, and a simple panel for the team to manage products, prices and 
 
 ## Outcome
 
-[PENDING: link to the live store and lessons learned.]
+In development. The catalog, cart, admin panel and end-to-end checkout tests already work; it is not live yet.

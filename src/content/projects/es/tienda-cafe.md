@@ -23,4 +23,4 @@ solos y un panel sencillo para que el equipo administrara productos, precios y p
 
 ## Resultado
 
-[PENDIENTE: enlace a la tienda publicada y aprendizajes.]
+En desarrollo. El catálogo, el carrito, el panel y las pruebas del flujo de compra ya funcionan; falta publicarla.
