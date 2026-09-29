@@ -4,7 +4,7 @@ summary: Catálogo, carrito y pedidos confirmados por WhatsApp, con un panel par
 year: 2026
 role: Diseño y desarrollo completo
 stack: [Next.js 16, Payload CMS, PostgreSQL, Tailwind CSS, Playwright]
-order: 2
+order: 3
 ---
 
 ## El problema
