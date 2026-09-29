@@ -4,7 +4,7 @@ summary: Indexador propio de la red Base y un panel en vivo que muestra cómo se
 year: 2026
 role: Diseño, desarrollo y datos
 stack: [TypeScript, viem, PostgreSQL, Drizzle, Hono, Astro, D3, Vitest]
-order: 2
+order: 3
 ---
 
 ## El problema

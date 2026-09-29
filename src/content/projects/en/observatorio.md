@@ -4,7 +4,7 @@ summary: A custom indexer for the Base network and a live dashboard showing how 
 year: 2026
 role: Design, development and data
 stack: [TypeScript, viem, PostgreSQL, Drizzle, Hono, Astro, D3, Vitest]
-order: 2
+order: 3
 ---
 
 ## The problem
