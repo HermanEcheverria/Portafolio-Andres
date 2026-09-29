@@ -5,6 +5,11 @@ year: 2026
 role: Design, architecture and development
 stack: [TypeScript, Node.js, SQLite, Hono, Tauri 2, Rust, React, Ollama, Vitest]
 order: 2
+repos:
+  - label: Kernel (nexo-os)
+    url: https://github.com/HermanEcheverria/nexo-os
+  - label: Windows app (nexo-desktop)
+    url: https://github.com/HermanEcheverria/nexo-desktop
 ---
 
 ## The problem

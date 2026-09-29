@@ -20,7 +20,7 @@ const projects = await getProjects(lang)
 const index = projects.findIndex((p) => projectSlug(p) === slug)
 const project = projects[index]
 const { Content } = await render(project)
-const { title, summary, year, role, stack } = project.data
+const { title, summary, year, role, stack, repos } = project.data
 const previous = projects[index - 1]
 const next = projects[index + 1]
 const diagram = diagrams[slug]
@@ -82,6 +82,26 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
               </ul>
             </dd>
           </div>
+          {repos.length > 0 && (
+            <div class="flex flex-col gap-2">
+              <dt class="text-xs tracking-[0.2em] text-grafito uppercase">{t('case.code')}</dt>
+              <dd>
+                <ul class="flex flex-col gap-1.5">
+                  {repos.map((repo) => (
+                    <li>
+                      <a
+                        href={repo.url}
+                        rel="noopener"
+                        class="underline underline-offset-4 hover:text-cobalto"
+                      >
+                        {repo.label} ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          )}
         </dl>
       </aside>
 
