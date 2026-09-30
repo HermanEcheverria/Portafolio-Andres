@@ -26,15 +26,18 @@ medias y actualizaciones pendientes.
   ciclo de vida; un planificador los despierta según su horario y al iniciar sesión; un supervisor
   reintenta lo que falla y detiene lo que se pasa de tiempo; y todo queda en una bitácora de solo
   escritura.
-- **Cuatro agentes** que revisan el disco y las descargas, las cachés, los proyectos con git y las
-  actualizaciones de Ubuntu y Windows.
+- **Seis agentes** que revisan el disco y las descargas, las cachés, los proyectos con git, las
+  actualizaciones de Ubuntu y Windows, la seguridad (antivirus, firewall, puertos expuestos y secretos
+  en los repositorios) y la salud del equipo (batería, GPU y memoria).
 - **Una cola de aprobaciones.** Los agentes solo _proponen_ cambios concretos; nada se ejecuta sin
   mi aprobación, lo aprobado va a una cuarentena que se puede deshacer durante 30 días y lo
   rechazado no se vuelve a proponer en un mes.
 - **Una app de escritorio** (Tauri y React) que arranca con Windows, enciende el núcleo en WSL si
   no está corriendo, avisa con una notificación y vive en la bandeja del sistema.
-- **Un asistente local** (Ollama con Qwen 3.5 en la GPU) al que le pregunto en español qué pasa en
-  la PC. Nada sale de la computadora.
+- **Un asistente local** (Ollama con Qwen 3.5 en la GPU) con conversaciones que recuerdan lo que
+  hablamos, al que le pregunto en español qué pasa en la PC. Nada sale de la computadora.
+- **Transparencia en vivo:** al ejecutar un agente se ven sus pasos, lo que encontró y qué cambió
+  desde la revisión anterior; el logo de Nexo se anima según lo que está haciendo.
 
 ## Decisiones clave
 
@@ -58,5 +61,6 @@ medias y actualizaciones pendientes.
 ## Resultado
 
 En uso diario en mi PC. Desde el primer día me ayudó a liberar unos 64 GB con aprobaciones que
-se pueden deshacer, sin un solo error. Tiene 42 pruebas en el núcleo, 7 en la app, integración
-continua y un instalador de Windows de 2.4 MB.
+se pueden deshacer, sin un solo error, y el Centinela detectó una base de datos expuesta a la red.
+Tiene 60 pruebas en el núcleo, 11 en la app, integración continua y un instalador de Windows de
+2.4 MB.

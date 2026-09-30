@@ -25,15 +25,18 @@ and pending updates.
 - **A kernel with operating-system parts.** Every agent run is a process with a lifecycle; a
   scheduler wakes agents on their schedule and at login; a supervisor retries what fails and stops
   what runs too long; and everything lands in an append-only log.
-- **Four agents** that check disk space and downloads, caches, git projects, and Ubuntu and
-  Windows updates.
+- **Six agents** that check disk space and downloads, caches, git projects, Ubuntu and Windows
+  updates, security (antivirus, firewall, exposed ports and secrets in repositories) and hardware
+  health (battery, GPU and memory).
 - **An approval queue.** Agents only _propose_ concrete changes; nothing runs without my approval,
   approved changes go to a quarantine that can be undone for 30 days, and rejected ones are not
   proposed again for a month.
 - **A desktop app** (Tauri and React) that starts with Windows, boots the kernel in WSL if it is not
   running, sends a notification and lives in the system tray.
-- **A local assistant** (Ollama with Qwen 3.5 on the GPU) I can ask in Spanish what is going on
-  with the PC. Nothing leaves the computer.
+- **A local assistant** (Ollama with Qwen 3.5 on the GPU) with conversations that remember what we
+  talked about, which I can ask in Spanish what is going on with the PC. Nothing leaves the computer.
+- **Live transparency:** running an agent shows its steps, what it found and what changed since the
+  previous check; the Nexo logo animates according to what it is doing.
 
 ## Key decisions
 
@@ -56,5 +59,5 @@ and pending updates.
 ## Outcome
 
 In daily use on my PC. On its first day it helped me free about 64 GB through approvals that can
-be undone, without a single error. It has 42 tests in the kernel, 7 in the app, continuous
-integration and a 2.4 MB Windows installer.
+be undone, without a single error, and the security agent caught a database exposed to the network.
+It has 60 tests in the kernel, 11 in the app, continuous integration and a 2.4 MB Windows installer.
