@@ -38,7 +38,7 @@ const projects = await getProjects(lang)
         {t('projects.subtitle')}
       </p>
     </div>
-    <div class="mt-10 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-10 grid gap-7 md:grid-cols-2 2xl:grid-cols-4">
       {projects.map((project, index) => (
         <ProjectPlate project={project} index={index} lang={lang} />
       ))}
@@ -85,26 +85,34 @@ const projects = await getProjects(lang)
 
   <section
     id="contacto"
-    class="container-page scroll-mt-8 border-t-[1.5px] border-tinta py-20"
+    class="container-page grid scroll-mt-8 items-center gap-10 border-t-[1.5px] border-tinta py-20 lg:grid-cols-[1fr_minmax(0,26rem)] 2xl:grid-cols-[1fr_minmax(0,34rem)]"
     aria-labelledby="contacto-titulo"
   >
-    <h2
-      id="contacto-titulo"
-      data-reveal-scroll
-      class="sombra-impresa font-display text-[clamp(3rem,7vw,6rem)] leading-none"
-    >
-      {t('contact.title')}
-    </h2>
-    <p data-reveal-scroll class="mt-6 max-w-2xl text-xl leading-relaxed">
-      {t('contact.body')}
-    </p>
-    <p data-reveal-scroll class="mt-8 font-mono text-lg">
-      <a
-        href={`mailto:${profile.email}`}
-        class="border-b-[1.5px] border-tinta pb-1 break-all hover:text-cobalto"
+    <div>
+      <h2
+        id="contacto-titulo"
+        data-reveal-scroll
+        class="sombra-impresa font-display text-[clamp(3rem,7vw,6rem)] leading-none"
       >
-        {profile.email}
-      </a>
-    </p>
+        {t('contact.title')}
+      </h2>
+      <p data-reveal-scroll class="mt-6 max-w-2xl text-xl leading-relaxed">
+        {t('contact.body')}
+      </p>
+      <p data-reveal-scroll class="mt-8 font-mono text-lg">
+        <a
+          href={`mailto:${profile.email}`}
+          class="border-b-[1.5px] border-tinta pb-1 break-all hover:text-cobalto"
+        >
+          {profile.email}
+        </a>
+      </p>
+    </div>
+    <canvas
+      data-engraved-scene="5"
+      data-paper="papel"
+      aria-hidden="true"
+      class="hidden aspect-[4/3] w-full lg:block"
+    ></canvas>
   </section>
 </BaseLayout>

@@ -28,87 +28,101 @@ const t = useTranslations(lang)
     </p>
   </div>
 
-  <ol class="mt-12 border-t-[1.5px] border-tinta">
-    {experience.map((item) => (
-      <li
-        data-reveal-scroll
-        class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
-      >
-        <p class="font-mono text-sm text-grafito">{localize(item.period, lang)}</p>
-        <div class="flex flex-col gap-1">
-          <h3 class="font-display text-3xl leading-tight">{item.organization}</h3>
-          <p class="font-medium text-cobalto">{localize(item.role, lang)}</p>
-        </div>
-        <div class="flex flex-col gap-3">
-          <p class="leading-relaxed text-tinta-suave">{localize(item.description, lang)}</p>
-          {item.tags.length > 0 && (
-            <ul class="flex flex-wrap gap-2 font-mono text-xs">
-              {item.tags.map((tag) => (
-                <li class="border-[1.5px] border-tinta px-2.5 py-1">{localize(tag, lang)}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </li>
-    ))}
-  </ol>
+  <!-- En pantallas muy anchas, la trayectoria y las certificaciones van lado a lado -->
+  <div class="mt-12 grid gap-x-16 2xl:grid-cols-[1.25fr_1fr] 2xl:items-start">
+    <div>
+      <ol class="border-t-[1.5px] border-tinta">
+        {experience.map((item) => (
+          <li
+            data-reveal-scroll
+            class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
+          >
+            <p class="font-mono text-sm text-grafito">{localize(item.period, lang)}</p>
+            <div class="flex flex-col gap-1">
+              <h3 class="font-display text-3xl leading-tight">{item.organization}</h3>
+              <p class="font-medium text-cobalto">{localize(item.role, lang)}</p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="leading-relaxed text-tinta-suave">{localize(item.description, lang)}</p>
+              {item.tags.length > 0 && (
+                <ul class="flex flex-wrap gap-2 font-mono text-xs">
+                  {item.tags.map((tag) => (
+                    <li class="border-[1.5px] border-tinta px-2.5 py-1">{localize(tag, lang)}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
 
-  <h3 data-reveal-scroll class="mt-16 font-mono text-[13px] tracking-[0.2em] uppercase">
-    {t('experience.education')}
-  </h3>
-  <ul class="mt-6 border-t-[1.5px] border-tinta">
-    {profile.education.map((item) => (
-      <li
-        data-reveal-scroll
-        class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
-      >
-        <p class="font-mono text-sm text-grafito">{localize(item.period, lang)}</p>
-        <p class="font-display text-3xl leading-tight">{item.institution}</p>
-        <p class="font-medium text-cobalto">{localize(item.degree, lang)}</p>
-      </li>
-    ))}
-  </ul>
-
-  <h3 data-reveal-scroll class="mt-16 font-mono text-[13px] tracking-[0.2em] uppercase">
-    {t('experience.certifications')}
-  </h3>
-  <ul class="mt-6 border-t-[1.5px] border-tinta">
-    {certificationsByIssuer().map((group) => (
-      <li
-        data-reveal-scroll
-        class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10"
-      >
-        <p class="font-display text-2xl leading-tight">{group.issuer}</p>
-        <ul class="flex flex-col gap-3">
-          {group.items.map((cert) => (
-            <li class="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6">
-              <span class="font-medium">
-                {cert.name}
-                {cert.note && (
-                  <span class="font-normal text-tinta-suave"> · {localize(cert.note, lang)}</span>
-                )}
-              </span>
-              <span class="font-mono text-sm text-grafito">{formatMonthYear(cert.date, lang)}</span>
-            </li>
-          ))}
-        </ul>
-      </li>
-    ))}
-    <li
-      data-reveal-scroll
-      class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10"
-    >
-      <p class="font-mono text-sm tracking-[0.2em] text-cobalto uppercase">
-        {t('experience.inProgress')}
-      </p>
-      <ul class="flex flex-col gap-3">
-        {inProgress.map((course) => (
-          <li>
-            <span class="font-medium">{course.name}</span>
-            <span class="text-tinta-suave"> · {course.provider}</span>
+      <h3 data-reveal-scroll class="mt-16 font-mono text-[13px] tracking-[0.2em] uppercase">
+        {t('experience.education')}
+      </h3>
+      <ul class="mt-6 border-t-[1.5px] border-tinta">
+        {profile.education.map((item) => (
+          <li
+            data-reveal-scroll
+            class="grid gap-3 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr_1.3fr] md:gap-10"
+          >
+            <p class="font-mono text-sm text-grafito">{localize(item.period, lang)}</p>
+            <p class="font-display text-3xl leading-tight">{item.institution}</p>
+            <p class="font-medium text-cobalto">{localize(item.degree, lang)}</p>
           </li>
         ))}
       </ul>
-    </li>
-  </ul>
+    </div>
+    <div>
+      <h3
+        data-reveal-scroll
+        class="mt-16 font-mono text-[13px] tracking-[0.2em] uppercase 2xl:mt-0"
+      >
+        {t('experience.certifications')}
+      </h3>
+      <ul class="mt-6 border-t-[1.5px] border-tinta">
+        {certificationsByIssuer().map((group) => (
+          <li
+            data-reveal-scroll
+            class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10 2xl:grid-cols-[11rem_1fr]"
+          >
+            <p class="font-display text-2xl leading-tight">{group.issuer}</p>
+            <ul class="flex flex-col gap-3">
+              {group.items.map((cert) => (
+                <li class="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-6">
+                  <span class="font-medium">
+                    {cert.name}
+                    {cert.note && (
+                      <span class="font-normal text-tinta-suave">
+                        {' '}
+                        · {localize(cert.note, lang)}
+                      </span>
+                    )}
+                  </span>
+                  <span class="font-mono text-sm text-grafito">
+                    {formatMonthYear(cert.date, lang)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+        <li
+          data-reveal-scroll
+          class="grid gap-4 border-b-[1.5px] border-tinta py-8 md:grid-cols-[14rem_1fr] md:gap-10 2xl:grid-cols-[11rem_1fr]"
+        >
+          <p class="font-mono text-sm tracking-[0.2em] text-cobalto uppercase">
+            {t('experience.inProgress')}
+          </p>
+          <ul class="flex flex-col gap-3">
+            {inProgress.map((course) => (
+              <li>
+                <span class="font-medium">{course.name}</span>
+                <span class="text-tinta-suave"> · {course.provider}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </section>

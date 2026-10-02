@@ -7,6 +7,7 @@ import { diagrams } from '@/data/diagrams'
 import type { Lang } from '@/i18n/ui'
 import { localizedPath, toRoman, useTranslations } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import { EMBLEM_SCENES } from '@/lib/emblems'
 import { getProjects, projectPath, projectSlug, projectUrl } from '@/lib/projects'
 
 interface Props {
@@ -20,7 +21,7 @@ const projects = await getProjects(lang)
 const index = projects.findIndex((p) => projectSlug(p) === slug)
 const project = projects[index]
 const { Content } = await render(project)
-const { title, summary, year, role, stack, repos } = project.data
+const { title, summary, year, role, stack, repos, emblem } = project.data
 const previous = projects[index - 1]
 const next = projects[index + 1]
 const diagram = diagrams[slug]
@@ -44,19 +45,29 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
       ← {t('case.back')}
     </a>
 
-    <header class="mt-10 flex flex-col gap-6 border-b-[1.5px] border-tinta pb-12">
-      <p data-reveal class="font-mono text-[13px] tracking-[0.25em] uppercase">
-        {plate} · {year}
-      </p>
-      <h1
-        data-split
-        class="sombra-impresa max-w-5xl font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.98] tracking-[-0.02em]"
-      >
-        {title}
-      </h1>
-      <p data-reveal class="max-w-3xl text-xl leading-relaxed sm:text-2xl">
-        {summary}
-      </p>
+    <header class="mt-10 grid items-center gap-10 border-b-[1.5px] border-tinta pb-12 lg:grid-cols-[1fr_minmax(0,26rem)] 2xl:grid-cols-[1fr_minmax(0,34rem)]">
+      <div class="flex flex-col gap-6">
+        <p data-reveal class="font-mono text-[13px] tracking-[0.25em] uppercase">
+          {plate} · {year}
+        </p>
+        <h1
+          data-split
+          class="sombra-impresa max-w-5xl font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.98] tracking-[-0.02em]"
+        >
+          {title}
+        </h1>
+        <p data-reveal class="max-w-3xl text-xl leading-relaxed sm:text-2xl">
+          {summary}
+        </p>
+      </div>
+      {emblem && (
+        <canvas
+          data-engraved-scene={EMBLEM_SCENES[emblem]}
+          data-paper="papel"
+          aria-hidden="true"
+          class="hidden aspect-[4/3] w-full lg:block"
+        ></canvas>
+      )}
     </header>
 
     {diagram && <ArchitectureDiagram diagram={diagram} slug={slug} title={title} lang={lang} />}
@@ -135,3 +146,9 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
     </nav>
   </article>
 </BaseLayout>
+
+<script>
+  import { mountEngravedScenes } from '@/scripts/engraved-scene/mount'
+
+  mountEngravedScenes()
+</script>

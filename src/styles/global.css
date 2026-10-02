@@ -23,6 +23,12 @@
 @layer base {
   html {
     color-scheme: light;
+    /*
+     * En pantallas grandes todo crece en proporción: 16 px hasta ~1600 px de ancho
+     * y hasta 22 px en un monitor ultraancho de 3440 px. Así no queda una columna
+     * angosta en medio de un mar de papel.
+     */
+    font-size: clamp(100%, 0.326vw + 0.674rem, 137.5%);
   }
   body {
     @apply bg-papel font-sans text-tinta antialiased;
@@ -36,7 +42,7 @@
 }
 
 @utility container-page {
-  @apply mx-auto w-full max-w-[1440px] px-5 sm:px-10 lg:px-18;
+  @apply mx-auto w-full max-w-[100rem] px-5 sm:px-10 lg:px-18;
 }
 
 /* Texto largo de los casos de estudio (Markdown) */

@@ -6,8 +6,14 @@ void main() { gl_Position = vec4(position, 0.0, 1.0); }`
 
 type SceneColors = { paper: string; ink: string; accent: string }
 
+/** 0 planeta · 1 diploma · 2 núcleo · 3 moneda · 4 taza · 5 eslabones (ver el shader). */
+export type SceneId = 0 | 1 | 2 | 3 | 4 | 5
+
 type SceneOptions = {
   colors: SceneColors
+  scene?: SceneId
+  /** Segundos extra de giro (por ejemplo, según el scroll). */
+  spin?: () => number
   /** Sin animación: dibuja un solo cuadro (usuarios con "reducir movimiento"). */
   still?: boolean
   /** Se llama si el navegador descarta el contexto WebGL (frecuente en celulares). */
@@ -38,6 +44,7 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
   const uRes = uniform('uRes')
   const uTime = uniform('uTime')
   const uMouse = uniform('uMouse')
+  gl.uniform1i(uniform('uScene'), options.scene ?? 0)
   gl.uniform3fv(uniform('uPaper'), hexToRgb(options.colors.paper))
   gl.uniform3fv(uniform('uInk'), hexToRgb(options.colors.ink))
   gl.uniform3fv(uniform('uAccent'), hexToRgb(options.colors.accent))
@@ -63,8 +70,9 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
   const mouse = { ...rest }
   const onPointerMove = (event: PointerEvent) => {
     const rect = canvas.getBoundingClientRect()
-    target.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-    target.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1)
+    // Acotado: con el cursor lejos de esta escena la luz no se va a un extremo
+    target.x = clamp(((event.clientX - rect.left) / rect.width) * 2 - 1)
+    target.y = clamp(-(((event.clientY - rect.top) / rect.height) * 2 - 1))
   }
   const onPointerLeave = () => Object.assign(target, rest)
   window.addEventListener('pointermove', onPointerMove, { passive: true })
@@ -83,7 +91,7 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
   const draw = (time: number) => {
     mouse.x += (target.x - mouse.x) * 0.06
     mouse.y += (target.y - mouse.y) * 0.06
-    gl.uniform1f(uTime, time)
+    gl.uniform1f(uTime, time + (options.spin?.() ?? 0))
     gl.uniform2f(uMouse, mouse.x, mouse.y)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
   }
@@ -138,6 +146,10 @@ function createProgram(gl: WebGL2RenderingContext, vertex: string, fragment: str
     throw new Error(`Programa: ${gl.getProgramInfoLog(program)}`)
   }
   return program
+}
+
+function clamp(value: number, limit = 1.2) {
+  return Math.max(-limit, Math.min(limit, value))
 }
 
 function hexToRgb(hex: string): [number, number, number] {

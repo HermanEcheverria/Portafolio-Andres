@@ -5,6 +5,7 @@ year: 2026
 role: Author · design, development and deployment
 stack: [Next.js, TypeScript, Prisma, PostgreSQL, n8n, Docker, Ollama, Vitest]
 order: 1
+emblem: diploma
 ---
 
 ## The problem

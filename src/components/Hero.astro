@@ -10,7 +10,7 @@ const t = useTranslations(Astro.props.lang)
 ---
 
 <section
-  class="container-page grid items-center gap-10 pt-12 pb-6 lg:grid-cols-[1fr_minmax(0,600px)] lg:pt-16"
+  class="container-page grid items-center gap-10 pt-12 pb-6 lg:grid-cols-[1fr_minmax(0,37.5rem)] lg:pt-16 2xl:grid-cols-[1fr_minmax(0,44rem)]"
   aria-labelledby="hero-title"
 >
   <div class="flex flex-col gap-7">
@@ -45,9 +45,11 @@ const t = useTranslations(Astro.props.lang)
     </div>
   </div>
 
-  <figure class="mx-auto flex w-full max-w-[600px] flex-col items-center gap-3">
+  <figure class="mx-auto flex w-full max-w-[37.5rem] flex-col items-center gap-3 2xl:max-w-[44rem]">
     <canvas
-      data-engraved-scene
+      data-engraved-scene="0"
+      data-scroll-spin
+      data-paper="papel"
       role="img"
       aria-label={t('hero.scene')}
       class="block aspect-square w-full"
@@ -59,32 +61,8 @@ const t = useTranslations(Astro.props.lang)
 </section>
 
 <script>
-  import { mountEngravedScene } from '@/scripts/engraved-scene'
-  import { prefersReducedMotion } from '@/lib/motion'
+  import { mountEngravedScenes } from '@/scripts/engraved-scene/mount'
 
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-engraved-scene]')
-  if (canvas) {
-    // Sin WebGL 2, shader que no compila o contexto perdido: rayado en lugar de la escena
-    const showFallback = () => {
-      canvas.classList.add('rayado', 'rounded-full')
-      canvas.nextElementSibling?.remove()
-    }
-    const styles = getComputedStyle(document.documentElement)
-    const color = (name: string) => styles.getPropertyValue(name).trim()
-    try {
-      const unmount = mountEngravedScene(canvas, {
-        still: prefersReducedMotion(),
-        onContextLost: showFallback,
-        colors: {
-          paper: color('--color-papel'),
-          ink: color('--color-tinta'),
-          accent: color('--color-cobalto'),
-        },
-      })
-      if (!unmount) showFallback()
-    } catch (error) {
-      console.error(error)
-      showFallback()
-    }
-  }
+  // Monta el planeta y los objetos de las láminas (una sola vez por página)
+  mountEngravedScenes()
 </script>

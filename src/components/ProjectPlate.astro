@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import type { Lang } from '@/i18n/ui'
 import { toRoman, useTranslations } from '@/i18n/utils'
+import { EMBLEM_SCENES } from '@/lib/emblems'
 import { projectUrl } from '@/lib/projects'
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 const { project, index, lang } = Astro.props
 const t = useTranslations(lang)
-const { title, summary, stack, year } = project.data
+const { title, summary, stack, year, emblem } = project.data
 ---
 
 <article
@@ -21,8 +22,17 @@ const { title, summary, stack, year } = project.data
   data-reveal-scroll
   class="group relative flex flex-col border-[1.5px] border-tinta bg-papel-claro [transform-style:preserve-3d]"
 >
-  <div class="rayado flex h-48 items-center justify-center border-b-[1.5px] border-tinta">
-    <span class="border-[1.5px] border-tinta bg-papel-claro px-3.5 py-2 font-mono text-xs tracking-[0.2em] uppercase [transform:translateZ(30px)]">
+  <div class="relative aspect-[16/10] overflow-hidden border-b-[1.5px] border-tinta">
+    {emblem ? (
+      <canvas
+        data-engraved-scene={EMBLEM_SCENES[emblem]}
+        aria-hidden="true"
+        class="block size-full"
+      ></canvas>
+    ) : (
+      <div class="rayado size-full"></div>
+    )}
+    <span class="absolute top-4 left-4 border-[1.5px] border-tinta bg-papel-claro px-3 py-1.5 font-mono text-xs tracking-[0.2em] uppercase [transform:translateZ(30px)]">
       {`${t('projects.plate')} ${toRoman(index + 1)}`}
     </span>
   </div>

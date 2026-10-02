@@ -5,6 +5,7 @@ year: 2026
 role: Diseño, desarrollo y datos
 stack: [TypeScript, viem, PostgreSQL, Drizzle, Hono, Astro, D3, Vitest]
 order: 3
+emblem: moneda
 ---
 
 ## El problema

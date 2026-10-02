@@ -5,6 +5,7 @@ year: 2026
 role: Diseño, arquitectura y desarrollo
 stack: [TypeScript, Node.js, SQLite, Hono, Tauri 2, Rust, React, Ollama, Vitest]
 order: 2
+emblem: nucleo
 repos:
   - label: Núcleo (nexo-os)
     url: https://github.com/HermanEcheverria/nexo-os
