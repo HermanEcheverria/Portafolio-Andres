@@ -37,7 +37,9 @@ medias y actualizaciones pendientes.
 - **Un asistente local** (Ollama con Qwen 3.5 en la GPU) con conversaciones que recuerdan lo que
   hablamos, al que le pregunto en español qué pasa en la PC. Nada sale de la computadora.
 - **Transparencia en vivo:** al ejecutar un agente se ven sus pasos, lo que encontró y qué cambió
-  desde la revisión anterior; el logo de Nexo se anima según lo que está haciendo.
+  desde la revisión anterior; el logo de Nexo se anima según lo que está haciendo. La interfaz pasó
+  por una revisión de diseño completa: lo urgente primero, el nombre del archivo antes que la
+  acción y color solo donde importa.
 
 ## Decisiones clave
 
@@ -52,6 +54,10 @@ medias y actualizaciones pendientes.
 - **Un modelo que no puede hacer daño.** Su salida está limitada por un esquema a cuatro
   intenciones y ninguna aprueba ni borra, así que un archivo que "da órdenes" es solo un dato. Las
   cifras las calcula el código, y el resumen se verifica número por número antes de mostrarse.
+- **Un resumen que nunca contradice a las cifras.** Al revisar el diseño de la app encontré que
+  el resumen del modelo decía 25.6 GB mientras el parte decía 24.8: se redactaba solo al iniciar
+  sesión y los agentes seguían trabajando. Ahora se vuelve a redactar en cuanto un agente termina o
+  decido una propuesta.
 - **Elegir con datos.** Armé una evaluación con respuestas esperadas: el modelo de 4B acertó 8 de 8
   en 1.5 segundos y superó al de 9B, así que me quedé con el más pequeño.
 - **API local blindada.** La app habla con el núcleo mediante un token secreto, validación del
@@ -62,5 +68,5 @@ medias y actualizaciones pendientes.
 
 En uso diario en mi PC. Desde el primer día me ayudó a liberar unos 64 GB con aprobaciones que
 se pueden deshacer, sin un solo error, y el Centinela detectó una base de datos expuesta a la red.
-Tiene 60 pruebas en el núcleo, 11 en la app, integración continua y un instalador de Windows de
+Tiene 61 pruebas en el núcleo, 14 en la app, integración continua y un instalador de Windows de
 2.4 MB.

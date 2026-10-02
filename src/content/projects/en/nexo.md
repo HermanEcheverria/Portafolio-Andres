@@ -36,7 +36,9 @@ and pending updates.
 - **A local assistant** (Ollama with Qwen 3.5 on the GPU) with conversations that remember what we
   talked about, which I can ask in Spanish what is going on with the PC. Nothing leaves the computer.
 - **Live transparency:** running an agent shows its steps, what it found and what changed since the
-  previous check; the Nexo logo animates according to what it is doing.
+  previous check; the Nexo logo animates according to what it is doing. The interface went through
+  a full design review: urgent things first, the file name before the action, and color only where
+  it matters.
 
 ## Key decisions
 
@@ -51,6 +53,9 @@ and pending updates.
 - **A model that cannot do harm.** Its output is constrained by a schema to four intents and none of
   them approves or deletes, so a file that "gives orders" is just data. Figures are computed by the
   code, and the summary is checked number by number before it is shown.
+- **A summary that never contradicts the numbers.** While reviewing the app's design I found the
+  model's summary said 25.6 GB while the report said 24.8: it was written only at login while the
+  agents kept working. Now it is rewritten as soon as an agent finishes or I decide on a proposal.
 - **Choosing with data.** I built an evaluation with expected answers: the 4B model scored 8 out of
   8 in 1.5 seconds and beat the 9B one, so I kept the smaller model.
 - **A hardened local API.** The app talks to the kernel with a secret token, Host header validation
@@ -60,4 +65,4 @@ and pending updates.
 
 In daily use on my PC. On its first day it helped me free about 64 GB through approvals that can
 be undone, without a single error, and the security agent caught a database exposed to the network.
-It has 60 tests in the kernel, 11 in the app, continuous integration and a 2.4 MB Windows installer.
+It has 61 tests in the kernel, 14 in the app, continuous integration and a 2.4 MB Windows installer.
