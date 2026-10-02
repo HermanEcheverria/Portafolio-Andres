@@ -80,7 +80,9 @@ function animateOnScroll() {
   gsap.utils.toArray<HTMLElement>('[data-reveal-scroll]').forEach((element, i) => {
     gsap.from(element, {
       y: 48,
-      autoAlpha: 0,
+      // Solo opacidad, no `visibility`: lo invisible no existe para un lector de pantalla,
+      // y quien navega por títulos no encontraría las secciones hasta hacer scroll
+      opacity: 0,
       duration: DURATION.base,
       ease: EASE,
       delay: (i % 3) * STAGGER,

@@ -53,20 +53,26 @@ const projects = await getProjects(lang)
     class="container-page grid scroll-mt-8 items-start gap-10 border-t-[1.5px] border-tinta py-20 md:grid-cols-[minmax(0,22rem)_1fr] md:gap-16"
     aria-labelledby="sobre-mi-titulo"
   >
-    <figure data-reveal-scroll tabindex="0" class="retrato group relative mx-auto w-full max-w-sm">
-      <div class="relative aspect-[3/4] overflow-hidden border-[1.5px] border-tinta bg-papel-claro">
+    <figure data-reveal-scroll class="retrato relative mx-auto w-full max-w-sm">
+      <!-- Botón (no un tabindex en la figura): con teclado también se puede ver la foto -->
+      <button
+        type="button"
+        aria-pressed="false"
+        data-retrato
+        class="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden border-[1.5px] border-tinta bg-papel-claro"
+      >
         <RetratoGrabado
           aria-hidden="true"
-          class="absolute inset-0 size-full text-tinta transition-opacity duration-700 ease-grabado group-hover:opacity-0 group-focus:opacity-0"
+          class="absolute inset-0 size-full text-tinta transition-opacity duration-700 ease-grabado group-hover:opacity-0 group-aria-pressed:opacity-0"
         />
         <Image
           src={retrato}
           alt={t('about.photo')}
           widths={[360, 720]}
           sizes="(min-width: 768px) 22rem, 90vw"
-          class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-700 ease-grabado group-hover:opacity-100 group-focus:opacity-100"
+          class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-700 ease-grabado group-hover:opacity-100 group-aria-pressed:opacity-100"
         />
-      </div>
+      </button>
       <figcaption class="mt-3 text-center font-mono text-xs tracking-[0.2em] uppercase">
         {t('about.caption')}
       </figcaption>
@@ -116,3 +122,12 @@ const projects = await getProjects(lang)
     ></canvas>
   </section>
 </BaseLayout>
+
+<script>
+  // El retrato grabado da paso a la foto: con el cursor encima o al pulsarlo (teclado o táctil)
+  document.querySelectorAll<HTMLButtonElement>('[data-retrato]').forEach((button) => {
+    button.addEventListener('click', () => {
+      button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true'))
+    })
+  })
+</script>

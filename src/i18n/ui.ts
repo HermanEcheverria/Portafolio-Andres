@@ -49,7 +49,7 @@ export const ui = {
     'skills.figure': 'Fig.',
     'about.title': 'Sobre mí',
     'about.photo': 'Fotografía de Andrés Echeverría',
-    'about.caption': 'Fig. 6 — Pasa el cursor para ver la foto',
+    'about.caption': 'Fig. 6 — Pasa el cursor o tócalo para ver la foto',
     'about.p1':
       'Me gusta trabajar de forma ordenada y limpia, y eso se nota en lo que construyo: desde interfaces cuidadas hasta bases de datos bien depuradas.',
     'about.p2':
@@ -132,7 +132,7 @@ export const ui = {
     'skills.figure': 'Fig.',
     'about.title': 'About me',
     'about.photo': 'Photograph of Andrés Echeverría',
-    'about.caption': 'Fig. 6 — Hover to see the photo',
+    'about.caption': 'Fig. 6 — Hover or tap to see the photo',
     'about.p1':
       'I like to work in an orderly, clean way, and it shows in what I build: from careful interfaces to well-cleaned databases.',
     'about.p2':
