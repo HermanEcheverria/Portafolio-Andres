@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content'
 
 import type { Lang } from '@/i18n/ui'
 import { toRoman, useTranslations } from '@/i18n/utils'
-import { EMBLEM_SCENES } from '@/lib/emblems'
 import { projectUrl } from '@/lib/projects'
 
 interface Props {
@@ -20,23 +19,24 @@ const { title, summary, stack, year, emblem } = project.data
 <article
   data-tilt
   data-reveal-scroll
-  class="group relative flex flex-col border-[1.5px] border-tinta bg-papel-claro [transform-style:preserve-3d]"
+  class="group relative flex flex-col border-[1.5px] border-tinta [transform-style:preserve-3d]"
 >
   <div class="relative aspect-[16/10] overflow-hidden border-b-[1.5px] border-tinta">
     {emblem ? (
-      <canvas
-        data-engraved-scene={EMBLEM_SCENES[emblem]}
+      <div
+        data-engrave={emblem}
+        data-paper="claro"
         aria-hidden="true"
-        class="block size-full"
-      ></canvas>
+        class="size-full bg-papel-claro"
+      ></div>
     ) : (
-      <div class="rayado size-full"></div>
+      <div class="rayado size-full bg-papel-claro"></div>
     )}
-    <span class="absolute top-4 left-4 border-[1.5px] border-tinta bg-papel-claro px-3 py-1.5 font-mono text-xs tracking-[0.2em] uppercase [transform:translateZ(30px)]">
+    <span class="absolute top-4 left-4 border-[1.5px] border-tinta bg-papel-claro px-3 py-1.5 font-mono text-xs tracking-[0.2em] uppercase">
       {`${t('projects.plate')} ${toRoman(index + 1)}`}
     </span>
   </div>
-  <div class="flex flex-1 flex-col gap-3 p-6 [transform:translateZ(18px)]">
+  <div class="flex flex-1 flex-col gap-3 bg-papel-claro p-6">
     <p class="font-mono text-xs text-grafito">{year}</p>
     <h3 class="font-display text-[27px] leading-tight">
       <!-- El enlace cubre toda la lámina con ::after, sin anidar elementos interactivos -->

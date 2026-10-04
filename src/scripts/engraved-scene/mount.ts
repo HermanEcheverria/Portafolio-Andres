@@ -3,7 +3,7 @@ import { prefersReducedMotion } from '@/lib/motion'
 import { mountEngravedScene, type SceneId } from './index'
 
 /**
- * Monta todas las escenas grabadas de la página: <canvas data-engraved-scene="2">.
+ * Monta todas las escenas grabadas de la página: <canvas data-engraved-scene="5">.
  * Con data-scroll-spin la escena gira un poco más al hacer scroll.
  * Sin WebGL 2, shader que no compila o contexto perdido: rayado en lugar de la escena.
  */

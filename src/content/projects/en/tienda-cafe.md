@@ -5,7 +5,7 @@ year: 2026
 role: End-to-end design and development
 stack: [Next.js 16, Payload CMS, PostgreSQL, Tailwind CSS, Playwright]
 order: 4
-emblem: taza
+emblem: cafe
 ---
 
 ## The problem

@@ -12,6 +12,7 @@
   --color-grafito: #5a564f;
   --color-cobalto: #2743d6;
   --color-cobalto-oscuro: #1a2f9e;
+  --color-rejilla: color-mix(in srgb, var(--color-tinta) 18%, var(--color-papel));
 
   --font-display: var(--font-young-serif);
   --font-sans: var(--font-plex-sans);

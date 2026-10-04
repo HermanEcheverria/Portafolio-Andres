@@ -7,7 +7,6 @@ import { diagrams } from '@/data/diagrams'
 import type { Lang } from '@/i18n/ui'
 import { localizedPath, toRoman, useTranslations } from '@/i18n/utils'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { EMBLEM_SCENES } from '@/lib/emblems'
 import { getProjects, projectPath, projectSlug, projectUrl } from '@/lib/projects'
 
 interface Props {
@@ -61,12 +60,12 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
         </p>
       </div>
       {emblem && (
-        <canvas
-          data-engraved-scene={EMBLEM_SCENES[emblem]}
+        <div
+          data-engrave={emblem}
           data-paper="papel"
           aria-hidden="true"
           class="hidden aspect-[4/3] w-full lg:block"
-        ></canvas>
+        ></div>
       )}
     </header>
 
@@ -148,7 +147,7 @@ const translated = (await getProjects(otherLang)).some((p) => projectSlug(p) ===
 </BaseLayout>
 
 <script>
-  import { mountEngravedScenes } from '@/scripts/engraved-scene/mount'
+  import { mountEngrave3d } from '@/scripts/engrave3d'
 
-  mountEngravedScenes()
+  mountEngrave3d()
 </script>

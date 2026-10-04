@@ -61,8 +61,10 @@ const t = useTranslations(Astro.props.lang)
 </section>
 
 <script>
+  import { mountEngrave3d } from '@/scripts/engrave3d'
   import { mountEngravedScenes } from '@/scripts/engraved-scene/mount'
 
-  // Monta el planeta y los objetos de las láminas (una sola vez por página)
+  // El planeta y los eslabones (shader propio) y los objetos de las láminas (three.js)
   mountEngravedScenes()
+  mountEngrave3d()
 </script>

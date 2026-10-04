@@ -50,7 +50,7 @@ const projects = await getProjects(lang)
 
   <section
     id="sobre-mi"
-    class="container-page grid scroll-mt-8 items-start gap-10 border-t-[1.5px] border-tinta py-20 md:grid-cols-[minmax(0,22rem)_1fr] md:gap-16"
+    class="container-page grid scroll-mt-8 items-start gap-10 border-t-[1.5px] border-tinta py-20 md:grid-cols-[minmax(0,22rem)_1fr] md:gap-16 xl:grid-cols-[minmax(0,22rem)_1fr_minmax(0,26rem)]"
     aria-labelledby="sobre-mi-titulo"
   >
     <figure data-reveal-scroll class="retrato relative mx-auto w-full max-w-sm">
@@ -87,6 +87,13 @@ const projects = await getProjects(lang)
         {t('about.p3')}
       </p>
     </div>
+    <!-- La hoguera de la que habla el último párrafo (solo en pantallas anchas) -->
+    <div
+      data-engrave="hoguera"
+      data-paper="papel"
+      aria-hidden="true"
+      class="hidden aspect-square w-full self-center xl:block"
+    ></div>
   </section>
 
   <section

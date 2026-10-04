@@ -19,8 +19,8 @@ const projects = defineCollection({
     /** Borrador: se ve en desarrollo pero no se publica. */
     draft: z.boolean().default(false),
     links: z.object({ demo: z.url().optional(), repo: z.url().optional() }).default({}),
-    /** Objeto 3D grabado de la lámina (ver src/scripts/engraved-scene). */
-    emblem: z.enum(['diploma', 'nucleo', 'moneda', 'taza']).optional(),
+    /** Objeto 3D grabado de la lámina (ver src/scripts/engrave3d/objects.ts). */
+    emblem: z.enum(['birrete', 'nexo', 'moneda', 'cafe']).optional(),
     /** Repositorios públicos del proyecto (puede haber varios, p. ej. núcleo y app). */
     repos: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
   }),

@@ -6,8 +6,8 @@ void main() { gl_Position = vec4(position, 0.0, 1.0); }`
 
 type SceneColors = { paper: string; ink: string; accent: string }
 
-/** 0 planeta · 1 diploma · 2 núcleo · 3 moneda · 4 taza · 5 eslabones (ver el shader). */
-export type SceneId = 0 | 1 | 2 | 3 | 4 | 5
+/** 0 planeta · 5 eslabones (ver el shader). */
+export type SceneId = 0 | 5
 
 type SceneOptions = {
   colors: SceneColors
