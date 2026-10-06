@@ -61,9 +61,10 @@ export function addPlanetIntro(timeline: gsap.core.Timeline, lenis?: Lenis): num
 
   timeline
     .to(introState, { back: 0, duration: 1.1, ease: 'power2.inOut', onUpdate: progress }, 0.2)
-    .to(introState, { wipe: 9, duration: 0.9, ease: 'power3.in', onUpdate: syncHole }, 0.75)
-    .to(hud, { opacity: 0, duration: 0.25 }, 1.2)
-    .set(veil, { display: 'none' }, 1.65)
+    .to(introState, { wipe: 9, duration: 0.85, ease: 'power3.in', onUpdate: syncHole }, 0.6)
+    .to(hud, { opacity: 0, duration: 0.25 }, 1.1)
+    // El círculo termina de abrirse antes del viaje: desde ahí el papel del canvas es transparente
+    .set(veil, { display: 'none' }, 1.45)
     .to(canvas, { x: 0, y: 0, scale: 1, duration: 0.85, ease: 'expo.inOut' }, 1.5)
     .call(end, undefined, 2.35)
 

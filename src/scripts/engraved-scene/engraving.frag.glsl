@@ -140,5 +140,14 @@ void main() {
   vec3 positive = mix(uPaper, color, k);
   vec3 negative = mix(uInk, color == uAccent ? uAccent : uPaper, k);
   float night = smoothstep(uWipe - .006, uWipe + .006, length(uv));
-  fragColor = vec4(mix(positive, negative, night), 1.);
+  vec3 rgb = mix(positive, negative, night);
+  float alpha = 1.;
+  // En el planeta solo se pintan las líneas: el papel alrededor es transparente, así no
+  // se ve un cuadrado sobre el texto cuando la intro lo mueve. El fondo oscuro de la
+  // intro lo pone el velo de la página (canvas con alfa premultiplicado).
+  if (uScene == 0 && hit.x >= .001) {
+    alpha = k;
+    rgb = mix(color, color == uAccent ? uAccent : uPaper, night) * k;
+  }
+  fragColor = vec4(rgb, alpha);
 }
