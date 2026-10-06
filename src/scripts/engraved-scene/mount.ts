@@ -1,10 +1,12 @@
 import { prefersReducedMotion } from '@/lib/motion'
 
 import { mountEngravedScene, type SceneId } from './index'
+import { introState } from './intro-state'
 
 /**
  * Monta todas las escenas grabadas de la página: <canvas data-engraved-scene="5">.
- * Con data-scroll-spin la escena gira un poco más al hacer scroll.
+ * Con data-scroll-spin la escena gira un poco más al hacer scroll; con data-intro la
+ * anima la intro del planeta.
  * Sin WebGL 2, shader que no compila o contexto perdido: rayado en lugar de la escena.
  */
 export function mountEngravedScenes() {
@@ -29,6 +31,7 @@ export function mountEngravedScenes() {
         spin,
         still: prefersReducedMotion(),
         onContextLost: showFallback,
+        intro: 'intro' in canvas.dataset ? introState : undefined,
         colors:
           canvas.dataset.paper === 'papel' ? { ...colors, paper: color('--color-papel') } : colors,
       })

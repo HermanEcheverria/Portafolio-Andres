@@ -5,6 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 import Lenis from 'lenis'
 
 import { DURATION, EASE, STAGGER, prefersReducedMotion } from '@/lib/motion'
+import { addPlanetIntro } from '@/scripts/planet-intro'
 
 gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin)
 
@@ -20,8 +21,8 @@ gsap.registerPlugin(ScrollTrigger, SplitText, DrawSVGPlugin)
 export function initMotion() {
   if (prefersReducedMotion()) return
 
-  initSmoothScroll()
-  animateIntro()
+  const lenis = initSmoothScroll()
+  animateIntro(lenis)
   animateOnScroll()
   animateWaves()
   initTilt()
@@ -51,10 +52,13 @@ function initSmoothScroll() {
       element.focus({ preventScroll: true })
     })
   })
+  return lenis
 }
 
-function animateIntro() {
+function animateIntro(lenis: Lenis) {
   const timeline = gsap.timeline({ defaults: { ease: EASE, duration: DURATION.base } })
+  // En la primera visita a la portada, el planeta abre la página y el título entra al final
+  const start = addPlanetIntro(timeline, lenis)
 
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((title) => {
     const split = SplitText.create(title, { type: 'chars', mask: 'chars' })
@@ -67,13 +71,13 @@ function animateIntro() {
         stagger: 0.035,
         onComplete: () => split.revert(),
       },
-      0,
+      start,
     )
   })
 
   // Solo se desliza: si empezara invisible, el navegador contaría el texto principal
   // como pintado tarde (Largest Contentful Paint) y la página parecería más lenta
-  timeline.from('[data-reveal]', { y: 24, stagger: STAGGER }, 0.35)
+  timeline.from('[data-reveal]', { y: 24, stagger: STAGGER }, start + 0.35)
 }
 
 function animateOnScroll() {

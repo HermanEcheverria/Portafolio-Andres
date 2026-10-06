@@ -49,6 +49,7 @@ const t = useTranslations(Astro.props.lang)
     <canvas
       data-engraved-scene="0"
       data-scroll-spin
+      data-intro
       data-paper="papel"
       role="img"
       aria-label={t('hero.scene')}
@@ -59,6 +60,16 @@ const t = useTranslations(Astro.props.lang)
     </figcaption>
   </figure>
 </section>
+
+{/* Intro del planeta (src/scripts/planet-intro.ts). Solo se muestra si BaseLayout marcó <html data-intro>. */}
+<div data-intro-veil class="intro-veil" aria-hidden="true">
+  <p class="intro-hud">
+    <span>
+      {t('hero.intro.label')} <span data-intro-count>000</span> %
+    </span>
+    <span>{t('hero.intro.skip')}</span>
+  </p>
+</div>
 
 <script>
   import { mountEngrave3d } from '@/scripts/engrave3d'

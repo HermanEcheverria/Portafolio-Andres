@@ -94,3 +94,29 @@ html.lenis body {
 .lenis:not(.lenis-autoToggle).lenis-stopped {
   overflow: clip;
 }
+
+/*
+ * Intro del planeta: velo de tinta sobre toda la página con un círculo que se abre
+ * desde el planeta (--hole). Si el script nunca llega, se retira solo a los 4 s.
+ */
+.intro-veil {
+  display: none;
+}
+html[data-intro] .intro-veil {
+  --hole: 0px;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: block;
+  background: var(--color-tinta);
+  mask: radial-gradient(circle at 50% 50%, transparent var(--hole), #000 calc(var(--hole) + 1px));
+  animation: intro-failsafe 0s 4s forwards;
+}
+.intro-hud {
+  @apply absolute inset-x-0 bottom-8 flex justify-center gap-8 font-mono text-xs tracking-[0.2em] text-papel uppercase tabular-nums;
+}
+@keyframes intro-failsafe {
+  to {
+    visibility: hidden;
+  }
+}

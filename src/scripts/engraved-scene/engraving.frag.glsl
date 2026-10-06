@@ -12,6 +12,10 @@ uniform int uScene;  // 0 planeta · 5 eslabones (los objetos de las láminas us
 uniform vec3 uPaper;
 uniform vec3 uInk;
 uniform vec3 uAccent;
+// Intro "eclipse y revelado": uBack 1 = luz por detrás; fuera del radio uWipe la imagen
+// sale en negativo (tinta de fondo, líneas de papel). En reposo: uBack 0 y uWipe grande.
+uniform float uBack;
+uniform float uWipe;
 
 out vec4 fragColor;
 
@@ -93,7 +97,8 @@ void main() {
     t += hit.x;
   }
 
-  vec3 light = normalize(vec3(uMouse.x * 1.6 - .4, uMouse.y * 1.3 + .7, 1.1));
+  vec3 front = normalize(vec3(uMouse.x * 1.6 - .4, uMouse.y * 1.3 + .7, 1.1));
+  vec3 light = normalize(mix(front, vec3(.27, .31, -.91), uBack));
   float ink = 0.;
   vec3 color = uInk;
 
@@ -116,14 +121,24 @@ void main() {
     }
     float rim = 1. - smoothstep(.12, .22, dot(n, -rd)); // contorno
     ink = max(ink, rim);
+    // A contraluz el borde de la esfera se enciende en cobalto
+    float halo = uBack * (1. - smoothstep(0., .35, dot(n, -rd)));
+    if (hit.y == 1. && halo > .3) {
+      color = uAccent;
+      ink = max(ink, halo);
+    }
   } else {
     // Sombra rayada en el piso; se desplaza un poco con la luz
     vec2 g = (uv - vec2(-.18 * uMouse.x, -.72)) * vec2(1.7, 7.);
     float e = length(g);
-    ink = hatch(uv.y * 90., .45 * (1. - smoothstep(.55, .9, e))) * step(e, .95);
+    ink = hatch(uv.y * 90., .45 * (1. - uBack) * (1. - smoothstep(.55, .9, e))) * step(e, .95);
     if (nearest < .012) ink = 1.;
   }
 
   float grain = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
-  fragColor = vec4(mix(uPaper, color, ink * (.9 + .1 * grain)), 1.);
+  float k = ink * (.9 + .1 * grain);
+  vec3 positive = mix(uPaper, color, k);
+  vec3 negative = mix(uInk, color == uAccent ? uAccent : uPaper, k);
+  float night = smoothstep(uWipe - .006, uWipe + .006, length(uv));
+  fragColor = vec4(mix(positive, negative, night), 1.);
 }

@@ -1,4 +1,5 @@
 import fragmentSource from './engraving.frag.glsl?raw'
+import type { IntroState } from './intro-state'
 
 const vertexSource = `#version 300 es
 in vec2 position;
@@ -18,6 +19,8 @@ type SceneOptions = {
   still?: boolean
   /** Se llama si el navegador descarta el contexto WebGL (frecuente en celulares). */
   onContextLost?: () => void
+  /** Valores de la intro (contraluz y revelado), leídos en cada cuadro. */
+  intro?: IntroState
 }
 
 /**
@@ -44,6 +47,8 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
   const uRes = uniform('uRes')
   const uTime = uniform('uTime')
   const uMouse = uniform('uMouse')
+  const uBack = uniform('uBack')
+  const uWipe = uniform('uWipe')
   gl.uniform1i(uniform('uScene'), options.scene ?? 0)
   gl.uniform3fv(uniform('uPaper'), hexToRgb(options.colors.paper))
   gl.uniform3fv(uniform('uInk'), hexToRgb(options.colors.ink))
@@ -93,6 +98,8 @@ export function mountEngravedScene(canvas: HTMLCanvasElement, options: SceneOpti
     mouse.y += (target.y - mouse.y) * 0.06
     gl.uniform1f(uTime, time + (options.spin?.() ?? 0))
     gl.uniform2f(uMouse, mouse.x, mouse.y)
+    gl.uniform1f(uBack, options.intro?.back ?? 0)
+    gl.uniform1f(uWipe, options.intro?.wipe ?? 9)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
   }
   const loop = () => {

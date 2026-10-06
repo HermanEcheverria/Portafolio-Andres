@@ -68,6 +68,20 @@ const alternates = (translated ? (['es', 'en'] as const) : [lang]).map((l) => ({
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:locale" content={lang === 'es' ? 'es_GT' : 'en_US'} />
     <meta name="generator" content={Astro.generator} />
+    {/* Antes de pintar: decide si la portada abre con la intro del planeta (una vez por visita) */}
+    <script is:inline>
+      try {
+        if (
+          /^\/(en\/?)?$/.test(location.pathname) &&
+          !location.hash &&
+          !matchMedia('(prefers-reduced-motion: reduce)').matches &&
+          !sessionStorage.getItem('intro-planeta')
+        ) {
+          sessionStorage.setItem('intro-planeta', '1')
+          document.documentElement.dataset.intro = ''
+        }
+      } catch {}
+    </script>
     <Font cssVariable="--font-young-serif" preload />
     {/* Solo se precarga lo que se ve al abrir; el resto llega después sin bloquear */}
     <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: 'normal' }]} />
