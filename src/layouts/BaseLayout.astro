@@ -27,7 +27,8 @@ const {
   title = t('meta.title'),
   description = t('meta.description'),
   path = '/',
-  image = lang === 'es' ? '/og.png' : '/og-en.png',
+  // ?v= cambia al regenerar la imagen: LinkedIn y otras redes la guardan por URL.
+  image = lang === 'es' ? '/og.png?v=2' : '/og-en.png?v=2',
   translated = true,
   indexable = true,
 } = Astro.props
