@@ -76,14 +76,15 @@ const contact = [
           lang === 'es' && <Image src={retrato} alt="" width={200} class="cv-photo" />
         }
         <h1>{profile.name}</h1>
-        <p class="cv-title">{localize(profile.title, lang)}</p>
+        <p class="cv-title">
+          {localize(profile.title, lang)} <span class="cv-location">· {profile.location}</span>
+        </p>
         <ul class="cv-contact">
           {contact.map((item) => (
             <li>
               <a href={item.href}>{item.label}</a>
             </li>
           ))}
-          <li>{profile.location}</li>
         </ul>
       </header>
 
@@ -155,10 +156,13 @@ const contact = [
           <a href={`${profile.website}${lang === 'es' ? '' : '/en'}#experiencia`}>
             {displayUrl(profile.website)}
           </a>
-        </p>
-        <p class="cv-cert">
-          <strong>{t('experience.inProgress')}:</strong>{' '}
-          {inProgress.map((course) => `${course.name} (${course.provider})`).join(' · ')}
+          {inProgress.length > 0 && (
+            <>
+              {' · '}
+              <strong>{t('experience.inProgress')}:</strong>{' '}
+              {inProgress.map((course) => `${course.name} (${course.provider})`).join(' · ')}
+            </>
+          )}
         </p>
       </section>
 
@@ -216,16 +220,16 @@ const contact = [
     max-width: 8.5in;
     min-height: 11in;
     margin: 0 auto;
-    padding: 0.42in 0.6in 0.3in;
+    padding: 0.36in 0.6in 0.26in;
     background: #fff;
     color: var(--color-tinta);
     font-family: var(--font-sans);
     font-size: 10pt;
-    line-height: 1.4;
+    line-height: 1.28;
     box-shadow: 8px 10px 0 var(--color-tinta);
   }
   .cv-header {
-    padding-bottom: 10pt;
+    padding-bottom: 8pt;
     margin-bottom: 4pt;
     border-bottom: 3px double var(--color-tinta);
   }
@@ -233,14 +237,14 @@ const contact = [
     position: relative;
   }
   .cv-header.con-foto {
-    padding-right: 1.05in;
+    padding-right: 0.92in;
   }
   .cv-photo {
     position: absolute;
     top: 0;
     right: 0;
-    width: 0.85in;
-    height: 1.05in;
+    width: 0.8in;
+    height: 0.96in;
     object-fit: cover;
     border: 1px solid var(--color-tinta);
   }
@@ -249,6 +253,10 @@ const contact = [
     font-family: var(--font-display);
     font-size: 25pt;
     line-height: 1.1;
+    font-weight: 400;
+  }
+  .cv-location {
+    color: var(--color-grafito);
     font-weight: 400;
   }
   .cv-title {
@@ -271,11 +279,11 @@ const contact = [
     color: var(--color-cobalto);
   }
   section {
-    margin-top: 7pt;
+    margin-top: 5pt;
     break-inside: avoid-page;
   }
   h2 {
-    margin: 0 0 6pt;
+    margin: 0 0 4pt;
     padding-bottom: 2pt;
     border-bottom: 1px solid var(--color-tinta);
     font-family: var(--font-mono);
@@ -288,7 +296,7 @@ const contact = [
     margin: 0;
   }
   .cv-entry + .cv-entry {
-    margin-top: 5pt;
+    margin-top: 3.5pt;
   }
   .cv-entry {
     break-inside: avoid;
@@ -311,29 +319,30 @@ const contact = [
     color: var(--color-grafito);
   }
   .cv-tags {
-    margin-top: 2pt;
+    margin-top: 1pt;
     font-family: var(--font-mono);
     font-size: 8pt;
     color: var(--color-cobalto);
   }
   .cv-cert + .cv-cert {
-    margin-top: 3pt;
+    margin-top: 2pt;
   }
+  /* "Grupo: elementos", una línea por grupo */
   .cv-skills {
     margin: 0;
     display: grid;
-    gap: 3pt;
-  }
-  .cv-skills div {
-    display: grid;
-    grid-template-columns: 2.3in 1fr;
-    gap: 8pt;
+    gap: 2pt;
   }
   .cv-skills dt {
+    display: inline;
     font-weight: 600;
   }
+  .cv-skills dt::after {
+    content: ':';
+  }
   .cv-skills dd {
-    margin: 0;
+    display: inline;
+    margin: 0 0 0 4pt;
   }
   @media print {
     .cv-body {

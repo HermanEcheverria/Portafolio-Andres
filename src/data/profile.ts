@@ -22,8 +22,8 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/herman-andr%C3%A9s-echeverria-rojas-501180256/',
   },
   summary: {
-    es: 'Estudiante de último año de Ingeniería en Sistemas, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y con formación en ciberseguridad (Cisco).',
-    en: 'Final-year Systems Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data migration with SQL and Python. Certified in project management (PMI, IBM) with cybersecurity training (Cisco).',
+    es: 'Estudiante de último año de Ingeniería en Sistemas, enfocado en front-end y bases de datos. Experiencia en soporte y consultoría, implementación de Odoo y migración de datos con SQL y Python. Certificado en gestión de proyectos (PMI, IBM) y en Docker (Compose y Swarm), con formación en ciberseguridad (Cisco).',
+    en: 'Final-year Systems Engineering student focused on front-end and databases. Experience in support and consulting, Odoo implementation, and data migration with SQL and Python. Certified in project management (PMI, IBM) and Docker (Compose and Swarm), with cybersecurity training (Cisco).',
   } satisfies Localizable,
   education: [
     {

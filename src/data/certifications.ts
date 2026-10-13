@@ -104,9 +104,7 @@ export const certifications: Certification[] = [
 ]
 
 /** Cursos sin terminar: se muestran aparte, nunca como certificaciones. */
-export const inProgress = [
-  { name: 'The Ultimate SSCP Masterclass (ISC2)', provider: 'Udemy' },
-]
+export const inProgress = [{ name: 'The Ultimate SSCP Masterclass (ISC2)', provider: 'Udemy' }]
 
 /** Certificaciones agrupadas por institución, de la más reciente a la más antigua. */
 /** Nombre corto para el CV, donde el espacio cuenta. */
