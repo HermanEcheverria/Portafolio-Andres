@@ -20,6 +20,7 @@ export const issuers = [
   'Cisco Networking Academy',
   'IBM SkillsBuild',
   'Universidad del Valle de Guatemala · CIE',
+  'Udemy',
   'UNIS Business School',
 ] as const
 
@@ -94,11 +95,16 @@ export const certifications: Certification[] = [
     date: '2022-06-29',
     note: { es: 'diploma', en: 'Data Analytics diploma course' },
   },
+  {
+    name: 'Aprende Docker de cero a experto: con Compose y Swarm',
+    issuer: 'Udemy',
+    date: '2026-10-12',
+    note: { es: '22 horas', en: '22 hours' },
+  },
 ]
 
 /** Cursos sin terminar: se muestran aparte, nunca como certificaciones. */
 export const inProgress = [
-  { name: 'Docker de cero a experto: con Compose y Swarm', provider: 'Udemy' },
   { name: 'The Ultimate SSCP Masterclass (ISC2)', provider: 'Udemy' },
 ]
 
